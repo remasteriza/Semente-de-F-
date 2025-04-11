@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Baixar Devocionais</title>
+  <style>
+    body {
+      font-family: 'Quicksand', sans-serif;
+      text-align: center;
+      padding: 60px;
+      background-color: #f2f8f6;
+    }
+    button {
+      padding: 12px 24px;
+      font-size: 1rem;
+      background-color: #5b8f85;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #4b7c72;
+    }
+  </style>
+</head>
+<body>
+  <h2>📥 Baixar Devocionais JSON</h2>
+  <p>Clique abaixo para baixar o arquivo <code>devocionais.json</code> completo:</p>
+  <button onclick="baixarArquivo()">Baixar Arquivo</button>
+
+  <script>
+    function baixarArquivo() {
+      const conteudo = [
+        {
+          "tema": "fé",
+          "titulo": "Confiança Inabalável",
+          "versiculo": "Hebreus 11:1",
+          "texto": "A fé é a certeza daquilo que esperamos e a prova das coisas que não vemos. Confie em Deus mesmo quando não há sinais visíveis."
+        },
+        {
+          "tema": "fé",
+          "titulo": "Andar Pela Fé",
+          "versiculo": "2 Coríntios 5:7",
+          "texto": "Pois vivemos por fé, e não pelo que vemos. Caminhe hoje acreditando que Deus está guiando seus passos."
+        },
+        {
+          "tema": "fé",
+          "titulo": "Acreditar Mesmo na Tempestade",
+          "versiculo": "Marcos 11:22",
+          "texto": "Jesus respondeu: Tenham fé em Deus! Mesmo quando as circunstâncias forem difíceis, a fé traz esperança."
+        },
+        {
+          "tema": "esperança",
+          "titulo": "Esperança Renovada",
+          "versiculo": "Romans 15:13",
+          "texto": "Que o Deus da esperança os encha de toda alegria e paz por sua confiança nele. Deus é a fonte da verdadeira esperança."
+        },
+        {
+          "tema": "esperança",
+          "titulo": "Novo Amanhecer",
+          "versiculo": "Lamentações 3:23",
+          "texto": "As misericórdias do Senhor se renovam a cada manhã. Há esperança mesmo depois das noites mais escuras."
+        },
+        {
+          "tema": "esperança",
+          "titulo": "Âncora da Alma",
+          "versiculo": "Hebreus 6:19",
+          "texto": "Temos esta esperança como âncora da alma, firme e segura. Deus nunca falha com Suas promessas."
+        },
+        {
+          "tema": "gratidão",
+          "titulo": "Coração Agradecido",
+          "versiculo": "1 Tessalonicenses 5:18",
+          "texto": "Deem graças em todas as circunstâncias, pois esta é a vontade de Deus para vocês em Cristo Jesus."
+        },
+        {
+          "tema": "gratidão",
+          "titulo": "Reconhecendo Suas Bênçãos",
+          "versiculo": "Salmo 103:2",
+          "texto": "Bendiga o Senhor a minha alma, e não esqueça nenhuma de suas bênçãos. A gratidão nos aproxima de Deus."
+        },
+        {
+          "tema": "gratidão",
+          "titulo": "Gratidão em Meio ao Deserto",
+          "versiculo": "Filipenses 4:6",
+          "texto": "Não andem ansiosos por coisa alguma, mas em tudo apresentem seus pedidos a Deus com ações de graças."
+        },
+        {
+          "tema": "adoração",
+          "titulo": "Adoração em Espírito",
+          "versiculo": "João 4:24",
+          "texto": "Deus é espírito, e é necessário que os seus adoradores o adorem em espírito e em verdade."
+        },
+        {
+          "tema": "adoração",
+          "titulo": "Louvor Que Transforma",
+          "versiculo": "Salmo 100:2",
+          "texto": "Adorem o Senhor com alegria; entrem na sua presença com cânticos alegres. A adoração muda o ambiente."
+        },
+        {
+          "tema": "adoração",
+          "titulo": "Tudo Para a Glória Dele",
+          "versiculo": "1 Coríntios 10:31",
+          "texto": "Portanto, quer comam, bebam ou façam qualquer outra coisa, façam tudo para a glória de Deus."
+        },
+        {
+          "tema": "perseverança",
+          "titulo": "Não Desista",
+          "versiculo": "Gálatas 6:9",
+          "texto": "E não nos cansemos de fazer o bem, pois no tempo próprio colheremos, se não desanimarmos."
+        },
+        {
+          "tema": "perseverança",
+          "titulo": "Corra com Perseverança",
+          "versiculo": "Hebreus 12:1",
+          "texto": "Corramos com perseverança a corrida que nos é proposta, olhando para Jesus."
+        },
+        {
+          "tema": "perseverança",
+          "titulo": "Firme na Rocha",
+          "versiculo": "Salmo 62:6",
+          "texto": "Somente ele é a rocha que me salva; é a minha fortaleza, e não serei abalado."
+        },
+        {
+          "tema": "amor",
+          "titulo": "Amor Que Tudo Suporta",
+          "versiculo": "1 Coríntios 13:7",
+          "texto": "O amor tudo sofre, tudo crê, tudo espera, tudo suporta. O amor verdadeiro vem de Deus."
+        },
+        {
+          "tema": "amor",
+          "titulo": "Amor Que Vem do Alto",
+          "versiculo": "1 João 4:19",
+          "texto": "Nós amamos porque Ele nos amou primeiro. Ame como você foi amado por Deus."
+        },
+        {
+          "tema": "amor",
+          "titulo": "Mandamento Maior",
+          "versiculo": "Mateus 22:37-39",
+          "texto": "Ame o Senhor seu Deus de todo o seu coração... e ame o seu próximo como a si mesmo."
+        },
+        {
+          "tema": "descanso",
+          "titulo": "Descanso para a Alma",
+          "versiculo": "Mateus 11:28",
+          "texto": "Venham a mim, todos os que estão cansados e sobrecarregados, e eu lhes darei descanso."
+        },
+        {
+          "tema": "descanso",
+          "titulo": "Paz em Deus",
+          "versiculo": "Salmo 4:8",
+          "texto": "Em paz me deito e logo adormeço, pois só tu, Senhor, me fazes viver em segurança."
+        },
+        {
+          "tema": "descanso",
+          "titulo": "Silencie e Confie",
+          "versiculo": "Êxodo 14:14",
+          "texto": "O Senhor lutará por vocês; tão somente acalmem-se."
+        }
+      ];
+
+      const blob = new Blob([JSON.stringify(conteudo, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'devocionais.json';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Semente de Fé – Início</title>
+
+  <!-- Fontes -->
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Quicksand', Arial, sans-serif;
+      background: #f6fff8;
+      color: #2f4f4f;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #a7d7c5;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 3px solid #5b8f85;
+    }
+
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3em;
+      margin: 0;
+    }
+
+    nav a {
+      margin: 0 15px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    nav a:hover,
+    nav a.active {
+      text-decoration: underline;
+      color: #f0fdf4;
+    }
+
+    main {
+      padding: 40px 20px 100px;
+    }
+
+    #versiculo-dia {
+      max-width: 800px;
+      margin: 40px auto;
+      background-color: #f1fdf6;
+      padding: 40px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    #versiculo-dia h2 {
+      font-size: 2.4em;
+      color: #2f5d3b;
+      margin-bottom: 20px;
+    }
+
+    #versiculo-dia h3 {
+      font-size: 2em;
+      color: #3b6847;
+      margin-top: 30px;
+    }
+
+    #versiculo-dia p {
+      font-size: 1.5em;
+      color: #2f4f4f;
+      margin: 15px 0;
+    }
+
+    #versiculo-dia button {
+      background-color: #4a7c59;
+      color: white;
+      padding: 18px 36px;
+      border: none;
+      border-radius: 12px;
+      margin-top: 30px;
+      cursor: pointer;
+      font-size: 1.3em;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    #versiculo-dia button:hover {
+      background-color: #355e43;
+    }
+
+    footer {
+      text-align: center;
+      background-color: #a7d7c5;
+      color: #fff;
+      padding: 12px;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Semente de Fé 🌱</h1>
+    <nav>
+      <a href="index.html" class="active">Início</a>
+      <a href="historico.html">Histórico</a>
+      <a href="diario.html">Meu Diário</a>
+      <a href="devocionais.html">Devocionais</a>
+      <a href="temas.html">Temas</a>
+      <a href="sobre.html">Sobre</a>
+    </nav>
+  </header>
+
+  <main>
+    <div id="versiculo-dia">
+      <h2>Versículo do Dia</h2>
+      <p><strong>“Tudo posso naquele que me fortalece.”</strong> – Filipenses 4:13</p>
+      
+      <h3>Reflexão</h3>
+      <p>A força que você precisa não vem de você, mas dEle.</p>
+
+      <button>Marcar como lido</button>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Semente de Fé • Inspirando com a Palavra</p>
+  </footer>
+
+  <script>
+    const botao = document.querySelector("#versiculo-dia button");
+
+    botao.addEventListener("click", function () {
+      botao.innerText = "✅ Marcado como lido";
+      botao.disabled = true;
+      botao.style.backgroundColor = "#6c9c7d";
+      botao.style.cursor = "default";
+    });
+  </script>
+</body>
+</html>

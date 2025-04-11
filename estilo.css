@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap');
+
+body {
+  font-family: 'Quicksand', Arial, sans-serif;
+  background: #f6fff8;
+  color: #2f4f4f;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #a7d7c5;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+  border-bottom: 3px solid #5b8f85;
+}
+
+nav a {
+  margin: 0 15px;
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+nav a:hover,
+nav a.active {
+  text-decoration: underline;
+  color: #f0fdf4;
+}
+
+main {
+  padding: 20px;
+  padding-bottom: 80px; /* Espaço para o footer fixo */
+}
+
+h1, h2, h3 {
+  color: #4a7c59;
+}
+
+button {
+  background-color: #4a7c59;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-top: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+button:hover {
+  background-color: #355e43;
+}
+
+footer {
+  text-align: center;
+  background-color: #a7d7c5;
+  color: #fff;
+  padding: 10px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  nav a {
+    display: block;
+    margin: 10px 0;
+  }
+
+  button {
+    width: 100%;
+  }
+}

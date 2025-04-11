@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Histórico – Semente de Fé</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: #f9f9f9;
+      margin: 20px;
+      color: #333;
+    }
+
+    header, footer {
+      text-align: center;
+      padding: 10px;
+    }
+
+    nav a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #4a7c59;
+      font-weight: bold;
+    }
+
+    h2 {
+      text-align: center;
+      color: #4a7c59;
+      margin-top: 20px;
+    }
+
+    #busca {
+      width: 100%;
+      max-width: 600px;
+      display: block;
+      margin: 20px auto;
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    ul#lista-historico {
+      list-style: none;
+      padding: 0;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    ul#lista-historico li {
+      background: #fff;
+      margin-bottom: 12px;
+      padding: 14px 18px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      border-left: 5px solid #4a7c59;
+      transition: 0.3s;
+      position: relative;
+    }
+
+    ul#lista-historico li:hover {
+      background: #f1fff5;
+    }
+
+    .favorito {
+      background: none;
+      border: none;
+      font-size: 20px;
+      color: #e3b10e;
+      float: right;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Semente de Fé 🌱</h1>
+    <nav>
+      <a href="index.html">Início</a>
+      <a href="historico.html">Histórico</a>
+      <a href="diario.html">Meu Diário</a>
+      <a href="sobre.html">Sobre</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Histórico de Versículos</h2>
+    
+    <!-- 🔍 Campo de busca -->
+    <input type="text" id="busca" placeholder="Buscar versículo ou palavra..." />
+
+    <!-- 📝 Lista de versículos -->
+    <ul id="lista-historico"></ul>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Semente de Fé • Inspirando com a Palavra</p>
+  </footer>
+
+  <script>
+    const versiculos = [
+      {
+        texto: "O Senhor é meu pastor, nada me faltará. – Salmos 23:1",
+        reflexao: "Confie que Deus cuida de cada detalhe da sua vida, mesmo quando você não entende o processo."
+      },
+      {
+        texto: "Entrega o teu caminho ao Senhor; confia nele, e ele o fará. – Salmos 37:5",
+        reflexao: "A entrega verdadeira traz paz. Confie seus planos a Deus."
+      },
+      {
+        texto: "Tudo posso naquele que me fortalece. – Filipenses 4:13",
+        reflexao: "A força que você precisa não vem de você, mas dEle."
+      },
+      {
+        texto: "Lâmpada para os meus pés é tua palavra, e luz para o meu caminho. – Salmos 119:105",
+        reflexao: "A Bíblia é guia para suas decisões. Deixe-se iluminar por ela."
+      }
+    ];
+
+    const lista = document.getElementById("lista-historico");
+    const busca = document.getElementById("busca");
+
+    function carregarLista() {
+      lista.innerHTML = '';
+      versiculos.forEach((item) => {
+        const li = document.createElement("li");
+        const favorito = isFavorito(item.texto) ? "⭐" : "☆";
+
+        li.innerHTML = `
+          <strong>${item.texto}</strong> 
+          <button class="favorito" data-texto="${item.texto}">${favorito}</button><br>
+          <em>${item.reflexao}</em>
+        `;
+        li.dataset.texto = `${item.texto.toLowerCase()} ${item.reflexao.toLowerCase()}`;
+        lista.appendChild(li);
+
+        const btn = li.querySelector(".favorito");
+        btn.addEventListener("click", () => {
+          alternarFavorito(item.texto);
+          carregarLista(); // recarrega para atualizar a estrela
+        });
+      });
+    }
+
+    function isFavorito(texto) {
+      const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+      return favoritos.includes(texto);
+    }
+
+    function alternarFavorito(texto) {
+      let favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
+      if (favoritos.includes(texto)) {
+        favoritos = favoritos.filter(item => item !== texto);
+      } else {
+        favoritos.push(texto);
+      }
+      localStorage.setItem('favoritos', JSON.stringify(favoritos));
+    }
+
+    busca.addEventListener("input", () => {
+      const termo = busca.value.toLowerCase();
+      const itens = lista.querySelectorAll("li");
+
+      itens.forEach(item => {
+        const texto = item.dataset.texto;
+        item.style.display = texto.includes(termo) ? "" : "none";
+      });
+    });
+
+    carregarLista();
+  </script>
+</body>
+</html>

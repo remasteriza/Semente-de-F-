@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Devocionais – Semente de Fé</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Quicksand', sans-serif;
+      background: url('fundo-celestial.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #2f4f4f;
+    }
+
+    header {
+      background-color: rgba(167, 215, 197, 0.95);
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 3px solid #5b8f85;
+    }
+
+    nav a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    nav a.active {
+      text-decoration: underline;
+    }
+
+    main {
+      padding: 40px 20px;
+      background-color: rgba(255, 255, 255, 0.85);
+      max-width: 900px;
+      margin: auto;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    h2, h3 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: #ffffffee;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      font-size: 1.3em;
+    }
+
+    .card p {
+      font-size: 1em;
+      line-height: 1.5;
+    }
+
+    .tema {
+      font-weight: bold;
+      display: inline-block;
+      margin-bottom: 10px;
+      padding: 4px 8px;
+      border-radius: 8px;
+      font-size: 0.85em;
+    }
+
+    .fé { background-color: #d1f2eb; color: #1e625e; }
+    .esperança { background-color: #d6eaf8; color: #154360; }
+    .gratidão { background-color: #fcf3cf; color: #7d6608; }
+    .adoração { background-color: #f9e79f; color: #7d6608; }
+    .perseverança { background-color: #f5cba7; color: #935116; }
+    .amor { background-color: #fadbd8; color: #922b21; }
+    .descanso { background-color: #d5f5e3; color: #145a32; }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      background-color: rgba(167, 215, 197, 0.95);
+      color: #fff;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Semente de Fé 🌱</h1>
+    <nav>
+      <a href="index.html">Início</a>
+      <a href="historico.html">Histórico</a>
+      <a href="diario.html">Meu Diário</a>
+      <a href="devocionais.html" class="active">Devocionais</a>
+      <a href="temas.html">Temas</a>
+      <a href="sobre.html">Sobre</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>📖 Devocional do Dia</h2>
+    <h3 id="tema-dia"></h3>
+    <div id="devocionais-container" class="cards-container"></div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Semente de Fé • Inspirando com a Palavra</p>
+  </footer>
+
+  <script>
+    const diasDaSemana = ["domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado"];
+    const temasPorDia = {
+      domingo: "adoração",
+      segunda: "fé",
+      terça: "esperança",
+      quarta: "gratidão",
+      quinta: "perseverança",
+      sexta: "amor",
+      sábado: "descanso"
+    };
+
+    const diaHoje = new Date().getDay();
+    const nomeDia = diasDaSemana[diaHoje];
+    const temaHoje = temasPorDia[nomeDia];
+
+    document.getElementById("tema-dia").textContent = `${nomeDia.charAt(0).toUpperCase() + nomeDia.slice(1)} – Tema: ${temaHoje.charAt(0).toUpperCase() + temaHoje.slice(1)}`;
+
+    fetch('devocionais.json')
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById("devocionais-container");
+        const devocionaisDoTema = data.filter(dev => dev.tema.toLowerCase() === temaHoje);
+
+        if (devocionaisDoTema.length > 0) {
+          const devocional = devocionaisDoTema[Math.floor(Math.random() * devocionaisDoTema.length)];
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
+            <span class="tema ${devocional.tema.toLowerCase()}">${devocional.tema}</span>
+            <h3>${devocional.titulo}</h3>
+            <p><strong>Versículo:</strong> ${devocional.versiculo}</p>
+            <p>${devocional.texto}</p>
+            <p><em><strong>Reflexão:</strong></em> ${devocional.reflexao}</p>
+          `;
+          container.appendChild(card);
+        } else {
+          container.innerHTML = "<p>Nenhum devocional disponível para este tema.</p>";
+        }
+      });
+  </script>
+</body>
+</html>

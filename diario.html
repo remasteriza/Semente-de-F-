@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meu Diário – Semente de Fé</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Quicksand', sans-serif;
+      background-color: #f0fdf4;
+      color: #2f4f4f;
+    }
+
+    header {
+      background-color: #a7d7c5;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 3px solid #5b8f85;
+    }
+
+    nav a {
+      margin: 0 10px;
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 40px 20px 120px;
+      background: url('fundo.jpg') no-repeat center center;
+      background-size: cover;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 2em;
+      margin-bottom: 20px;
+      color: #2d4739;
+      background-color: rgba(255,255,255,0.7);
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 15px;
+      font-size: 1.1em;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      resize: vertical;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 12px 24px;
+      background-color: #4a7c59;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #355e43;
+    }
+
+    .card {
+      background-color: rgba(255, 255, 255, 0.92);
+      margin-top: 20px;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      position: relative;
+    }
+
+    .card strong {
+      display: block;
+      margin-bottom: 8px;
+      color: #2d4739;
+    }
+
+    .card .botoes {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+
+    .card .botoes button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1em;
+      margin-left: 8px;
+      color: #4a7c59;
+    }
+
+    .card .botoes button:hover {
+      color: #2d4739;
+    }
+
+    footer {
+      text-align: center;
+      background-color: #a7d7c5;
+      color: #fff;
+      padding: 10px;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Semente de Fé 🌱</h1>
+    <nav>
+      <a href="index.html">Início</a>
+      <a href="historico.html">Histórico</a>
+      <a href="diario.html" class="active">Meu Diário</a>
+      <a href="devocionais.html">Devocionais</a>
+      <a href="sobre.html">Sobre</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>📖 Meu Diário Espiritual 🙏</h2>
+    <textarea id="entrada" rows="6" placeholder="Escreva sua oração, sentimento ou aprendizado..."></textarea>
+    <br>
+    <button onclick="salvarEntrada()">Salvar</button>
+
+    <div id="historico-anotacoes"></div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Semente de Fé • Inspirando com a Palavra</p>
+  </footer>
+
+  <script>
+    const entrada = document.getElementById("entrada");
+    const lista = document.getElementById("historico-anotacoes");
+
+    function salvarEntrada() {
+      const texto = entrada.value.trim();
+      if (texto) {
+        const data = new Date().toLocaleDateString();
+        const item = { texto, data };
+        const salvos = JSON.parse(localStorage.getItem("diario")) || [];
+        salvos.unshift(item);
+        localStorage.setItem("diario", JSON.stringify(salvos));
+        entrada.value = "";
+        carregarEntradas();
+      }
+    }
+
+    function carregarEntradas() {
+      lista.innerHTML = "";
+      const salvos = JSON.parse(localStorage.getItem("diario")) || [];
+      salvos.forEach((item, index) => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <div class="botoes">
+            <button onclick="editarEntrada(${index})">✏️</button>
+            <button onclick="excluirEntrada(${index})">🗑️</button>
+          </div>
+          <strong>${item.data}</strong>
+          <p>${item.texto}</p>
+        `;
+        lista.appendChild(card);
+      });
+    }
+
+    function excluirEntrada(index) {
+      const salvos = JSON.parse(localStorage.getItem("diario")) || [];
+      salvos.splice(index, 1);
+      localStorage.setItem("diario", JSON.stringify(salvos));
+      carregarEntradas();
+    }
+
+    function editarEntrada(index) {
+      const salvos = JSON.parse(localStorage.getItem("diario")) || [];
+      const novoTexto = prompt("Edite sua entrada:", salvos[index].texto);
+      if (novoTexto !== null) {
+        salvos[index].texto = novoTexto.trim();
+        localStorage.setItem("diario", JSON.stringify(salvos));
+        carregarEntradas();
+      }
+    }
+
+    carregarEntradas();
+  </script>
+</body>
+</html>

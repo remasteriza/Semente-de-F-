@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Temas – Semente de Fé</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Quicksand', Arial, sans-serif;
+      background: #f6fff8;
+      color: #2f4f4f;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #a7d7c5;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 3px solid #5b8f85;
+    }
+
+    nav a {
+      margin: 0 15px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    nav a:hover,
+    nav a.active {
+      text-decoration: underline;
+      color: #f0fdf4;
+    }
+
+    main {
+      padding: 20px;
+      padding-bottom: 80px; /* espaço pro rodapé fixo */
+    }
+
+    h1, h2, h3 {
+      color: #4a7c59;
+    }
+
+    button {
+      background-color: #4a7c59;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin-top: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #355e43;
+    }
+
+    footer {
+      text-align: center;
+      background-color: #a7d7c5;
+      color: #fff;
+      padding: 10px;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+
+    #temas {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 20px auto;
+    }
+
+    .tema-btn {
+      background: #e6f2ea;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: bold;
+      color: #4a7c59;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .tema-btn.active {
+      background: #4a7c59;
+      color: #fff;
+    }
+
+    #busca {
+      width: 100%;
+      max-width: 600px;
+      display: block;
+      margin: 20px auto;
+      padding: 10px 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    .devocional {
+      background: #fff;
+      max-width: 700px;
+      margin: 20px auto;
+      padding: 20px;
+      border-radius: 10px;
+      border-left: 5px solid #4a7c59;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .devocional h3 {
+      margin: 0 0 10px;
+      color: #2f5d3b;
+    }
+
+    .devocional small {
+      display: block;
+      color: #888;
+      margin-bottom: 10px;
+    }
+
+    .devocional p {
+      margin: 0;
+    }
+
+    @media (max-width: 600px) {
+      nav a {
+        display: block;
+        margin: 10px 0;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Semente de Fé 🌱</h1>
+    <nav>
+      <a href="index.html">Início</a>
+      <a href="historico.html">Histórico</a>
+      <a href="diario.html">Meu Diário</a>
+      <a href="devocionais.html">Devocionais</a>
+      <a href="temas.html" class="active">Temas</a>
+      <a href="sobre.html">Sobre</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Temas de Devocionais</h2>
+
+    <div id="temas">
+      <button class="tema-btn active" data-tema="todos">Todos</button>
+      <button class="tema-btn" data-tema="fé">Fé</button>
+      <button class="tema-btn" data-tema="esperança">Esperança</button>
+      <button class="tema-btn" data-tema="perdão">Perdão</button>
+      <button class="tema-btn" data-tema="confiança">Confiança</button>
+    </div>
+
+    <input type="text" id="busca" placeholder="Buscar por palavra..." />
+
+    <div id="lista-devocionais"></div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Semente de Fé • Inspirando com a Palavra</p>
+  </footer>
+
+  <script>
+    const devocionais = [
+      {
+        titulo: "A Fé Move Montanhas",
+        versiculo: "Hebreus 11:1",
+        texto: "A fé é a certeza do que se espera e a prova do que não se vê.",
+        tema: "fé"
+      },
+      {
+        titulo: "Esperança em Meio à Tempestade",
+        versiculo: "Romanos 15:13",
+        texto: "Que o Deus da esperança os encha de alegria e paz por sua confiança nele.",
+        tema: "esperança"
+      },
+      {
+        titulo: "O Poder do Perdão",
+        versiculo: "Efésios 4:32",
+        texto: "Sejam bondosos e compassivos, perdoando-se mutuamente, como Deus os perdoou.",
+        tema: "perdão"
+      },
+      {
+        titulo: "Confie no Senhor",
+        versiculo: "Provérbios 3:5",
+        texto: "Confia no Senhor de todo o teu coração e não te estribes no teu próprio entendimento.",
+        tema: "confiança"
+      },
+      {
+        titulo: "Deus Nunca Falha",
+        versiculo: "Salmos 46:1",
+        texto: "Deus é o nosso refúgio e fortaleza, socorro bem presente na angústia.",
+        tema: "confiança"
+      }
+    ];
+
+    const lista = document.getElementById("lista-devocionais");
+    const busca = document.getElementById("busca");
+    const botoes = document.querySelectorAll(".tema-btn");
+    let temaAtivo = "todos";
+
+    function renderizarDevocionais() {
+      const termo = busca.value.toLowerCase();
+      lista.innerHTML = "";
+
+      const filtrados = devocionais.filter(dev => {
+        const correspondeTema = temaAtivo === "todos" || dev.tema === temaAtivo;
+        const correspondeBusca = dev.titulo.toLowerCase().includes(termo) || dev.texto.toLowerCase().includes(termo);
+        return correspondeTema && correspondeBusca;
+      });
+
+      if (filtrados.length === 0) {
+        lista.innerHTML = "<p style='text-align:center; color:#777;'>Nenhum devocional encontrado.</p>";
+      }
+
+      filtrados.forEach(dev => {
+        const div = document.createElement("div");
+        div.className = "devocional";
+        div.innerHTML = `
+          <h3>${dev.titulo}</h3>
+          <small>Versículo: ${dev.versiculo}</small>
+          <p>${dev.texto}</p>
+        `;
+        lista.appendChild(div);
+      });
+    }
+
+    botoes.forEach(btn => {
+      btn.addEventListener("click", () => {
+        botoes.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        temaAtivo = btn.dataset.tema;
+        renderizarDevocionais();
+      });
+    });
+
+    busca.addEventListener("input", renderizarDevocionais);
+
+    renderizarDevocionais();
+  </script>
+</body>
+</html>
