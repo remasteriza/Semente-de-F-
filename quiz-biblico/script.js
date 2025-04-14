@@ -53,7 +53,8 @@ const perguntas = [
     { fase: 11, pergunta: "Qual discípulo foi conhecido por cortar a orelha de um soldado?", alternativas: ["Pedro", "Tomé", "Tiago", "João"], correta: 0 },
     { fase: 11, pergunta: "Em qual livro encontramos a armadura de Deus?", alternativas: ["Efésios", "Romanos", "Gálatas", "Colossenses"], correta: 0 },
     { fase: 11, pergunta: "Qual personagem sonhou com uma escada que chegava ao céu?", alternativas: ["Jacó", "José", "Samuel", "Elias"], correta: 0 },
-  ];  
+  ];
+
    
   
   let faseAtual = 1;
@@ -92,27 +93,28 @@ const perguntas = [
   
   function verificarResposta(escolhida, correta) {
     const botoes = document.querySelectorAll("#alternatives button");
+    const feedback = document.getElementById("feedback");
+  
     botoes.forEach((btn, i) => {
       btn.disabled = true;
       btn.style.backgroundColor = i === correta ? "#4caf50" : "#e57373";
     });
   
+    if (escolhida === correta) {
+      feedback.innerText = "🎉 Muito bem! Resposta correta!";
+      feedback.style.color = "#4caf50";
+    } else {
+      feedback.innerText = "😓 Ops! Essa não é a resposta certa. Tente novamente!";
+      feedback.style.color = "#e57373";
+    }
+  
+    feedback.classList.add("show");
+  
     setTimeout(() => {
-      perguntaIndex++;
-      mostrarPergunta();
-    }, 1000);
-  }
-  
-  function iniciarProximaFase() {
-    faseAtual++;
-    perguntaIndex = 0;
-    mostrarPergunta();
-  }
-  
-  function reiniciar() {
-    faseAtual = 1;
-    perguntaIndex = 0;
-    mostrarPergunta();
+      feedback.classList.remove("show");
+      perguntaIndex++; // Essa parte já está funcionando
+      mostrarPergunta(); // Avança para a próxima pergunta depois do feedback
+    }, 1500);
   }
   
   function voltarInicio() {
