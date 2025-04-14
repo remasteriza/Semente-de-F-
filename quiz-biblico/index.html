@@ -68,11 +68,16 @@
     <h1>Quiz Bíblico</h1>
     <div id="question" class="question"></div>
     <div id="alternatives" class="alternatives"></div>
+    <img id="question-image" src="" alt="Imagem da Pergunta" style="width: 100%; height: auto; margin-bottom: 20px; display: none;">
 
     <button class="next-phase" id="nextPhaseBtn" onclick="iniciarProximaFase()">Próxima Fase</button>
     <button class="restart-btn" id="restartBtn" onclick="reiniciar()">Fazer Novamente</button>
     <button class="home-btn" onclick="voltarInicio()">Voltar ao Início</button>
   </div>
+
+  <audio id="correct-sound" src="correct-answer-sound.mp3" preload="auto"></audio>
+  <audio id="incorrect-sound" src="incorrect-answer-sound.mp3" preload="auto"></audio>
+  <audio id="background-music" src="background-music.mp3" loop autoplay></audio>
 
   <script>
     const perguntas = [
@@ -83,42 +88,26 @@
       { fase: 1, pergunta: "Quem abriu o mar?", alternativas: ["Moisés", "Abraão", "Jesus", "Josué"], correta: 0 },
       { fase: 1, pergunta: "Qual o primeiro livro da Bíblia?", alternativas: ["Gênesis", "Êxodo", "Salmos", "Mateus"], correta: 0 },
       { fase: 1, pergunta: "Quantos discípulos Jesus teve?", alternativas: ["12", "7", "70", "10"], correta: 0 },
-      
+
       // Fase 2
       { fase: 2, pergunta: "Quem traiu Jesus?", alternativas: ["Pedro", "Tiago", "Judas", "João"], correta: 2 },
       { fase: 2, pergunta: "Quem escreveu Apocalipse?", alternativas: ["João", "Paulo", "Pedro", "Lucas"], correta: 0 },
       { fase: 2, pergunta: "Quem foi o gigante derrotado por Davi?", alternativas: ["Golias", "Saul", "Esaú", "Caim"], correta: 0 },
       { fase: 2, pergunta: "Quem foi mãe de Jesus?", alternativas: ["Maria", "Marta", "Sara", "Ana"], correta: 0 },
 
-      // Fase 3
-      { fase: 3, pergunta: "Qual o nome do primeiro apóstolo?", alternativas: ["Pedro", "João", "André", "Tiago"], correta: 2 },
-      { fase: 3, pergunta: "Onde Jesus foi crucificado?", alternativas: ["Monte das Oliveiras", "Gólgota", "Jerusalém", "Betânia"], correta: 1 },
-      { fase: 3, pergunta: "O que Jesus disse no momento da sua morte?", alternativas: ["Está consumado", "Pai, perdoa-os", "Em tuas mãos entrego o meu espírito", "Todos os versículos"], correta: 0 },
-      { fase: 3, pergunta: "Quem negou Jesus três vezes?", alternativas: ["João", "Paulo", "Pedro", "Tiago"], correta: 2 },
+      // Fase 3 (Aumentando a dificuldade)
+      { fase: 3, pergunta: "Quem foi o profeta que desafiou os profetas de Baal no monte Carmelo?", alternativas: ["Elias", "Moisés", "Isaías", "Amós"], correta: 0 },
+      { fase: 3, pergunta: "Qual o nome do gigante derrotado por Davi?", alternativas: ["Golias", "Goliath", "Geleão", "Geás"], correta: 0 },
 
       // Fase 4
-      { fase: 4, pergunta: "Qual é o último livro da Bíblia?", alternativas: ["Apocalipse", "Gênesis", "Romanos", "Mateus"], correta: 0 },
-      { fase: 4, pergunta: "Qual era a profissão de Mateus?", alternativas: ["Pescador", "Cobrador de impostos", "Mestre", "Ferreiro"], correta: 1 },
-      { fase: 4, pergunta: "Quem foi o rei que pediu para matar todos os meninos em Belém?", alternativas: ["Herodes", "Salomão", "David", "César"], correta: 0 },
-      { fase: 4, pergunta: "Qual é o nome do livro onde se encontra o versículo 'O Senhor é o meu pastor'? ", alternativas: ["Salmos", "Provérbios", "Isaías", "Mateus"], correta: 0 },
+      { fase: 4, pergunta: "Quem foi o rei que escreveu muitos dos Provérbios?", alternativas: ["Salomão", "Davi", "Saul", "Ezequias"], correta: 0 },
 
-      // Fase 5
-      { fase: 5, pergunta: "Quem fez a travessia do mar Vermelho?", alternativas: ["Moisés", "Davi", "Abraão", "Jonas"], correta: 0 },
-      { fase: 5, pergunta: "O que Jesus transformou na festa de casamento?", alternativas: ["Pão", "Água em vinho", "Peixe", "Pão em carne"], correta: 1 },
-      { fase: 5, pergunta: "Onde Jesus nasceu?", alternativas: ["Jerusalém", "Belém", "Nazareth", "Capernaum"], correta: 1 },
-      { fase: 5, pergunta: "Quem era o discípulo que traiu Jesus?", alternativas: ["Pedro", "Tiago", "João", "Judas"], correta: 3 },
+      // Fase Bônus
+      { fase: 12, pergunta: "Qual é o versículo mais curto da Bíblia?", alternativas: ["Jesus chorou.", "Ame o próximo.", "Deus é amor.", "Eu sou o caminho."], correta: 0 },
+      { fase: 12, pergunta: "Quem escreveu o livro de Eclesiastes?", alternativas: ["Salomão", "Isaías", "Moisés", "Davi"], correta: 0 },
 
-      // Fase 6
-      { fase: 6, pergunta: "Qual apóstolo escreveu a maioria das cartas no Novo Testamento?", alternativas: ["Paulo", "Pedro", "Tiago", "João"], correta: 0 },
-      { fase: 6, pergunta: "Quantos livros tem o Novo Testamento?", alternativas: ["27", "22", "39", "66"], correta: 0 },
-      { fase: 6, pergunta: "Quem batizou Jesus?", alternativas: ["Paulo", "João Batista", "Pedro", "André"], correta: 1 },
-      { fase: 6, pergunta: "Quem foi o apóstolo mais jovem?", alternativas: ["Tiago", "João", "Pedro", "Mateus"], correta: 1 },
-
-      // Fase 7
-      { fase: 7, pergunta: "O que a Bíblia diz sobre o fruto do Espírito?", alternativas: ["É só paz", "É amor, alegria, paz, longanimidade", "Somente fé", "Somente bondade"], correta: 1 },
-      { fase: 7, pergunta: "Em que livro encontramos a história de Daniel na cova dos leões?", alternativas: ["Gênesis", "Êxodo", "Daniel", "Mateus"], correta: 2 },
-      { fase: 7, pergunta: "Quem foi o primeiro rei de Israel?", alternativas: ["Saul", "Davi", "Salomão", "Ezequias"], correta: 0 },
-      { fase: 7, pergunta: "Quem foi lançado no forno de fogo ardente?", alternativas: ["Sadraque, Mesaque e Abednego", "Davi", "José", "Elias"], correta: 0 }
+      // Perguntas com Imagens
+      { fase: 5, pergunta: "Quem é o personagem da imagem?", alternativas: ["Davi", "Moisés", "Jesus", "João"], correta: 0, tipo: "imagem", imagem: "imagem-de-davi.jpg" },
     ];
 
     let faseAtual = 1;
@@ -134,4 +123,71 @@
       if (perguntaIndex >= perguntasFase.length) {
         document.getElementById("question").innerText = `Fase ${faseAtual} concluída!`;
         document.getElementById("alternatives").innerHTML = "";
-        document
+        document.getElementById("nextPhaseBtn").style.display = "inline-block";
+        document.getElementById("restartBtn").style.display = "inline-block";
+        return;
+      }
+
+      const pergunta = perguntasFase[perguntaIndex];
+      document.getElementById("question").innerText = pergunta.pergunta;
+
+      if (pergunta.tipo === "imagem") {
+        document.getElementById("question-image").style.display = "block";
+        document.getElementById("question-image").src = pergunta.imagem;
+      } else {
+        document.getElementById("question-image").style.display = "none";
+      }
+
+      const altDiv = document.getElementById("alternatives");
+      altDiv.innerHTML = "";
+      pergunta.alternativas.forEach((alt, i) => {
+        const btn = document.createElement("button");
+        btn.innerText = alt;
+        btn.onclick = () => verificarResposta(i, pergunta.correta);
+        altDiv.appendChild(btn);
+      });
+
+      document.getElementById("nextPhaseBtn").style.display = "none";
+      document.getElementById("restartBtn").style.display = "none";
+    }
+
+    function verificarResposta(escolhida, correta) {
+      const botoes = document.querySelectorAll("#alternatives button");
+      botoes.forEach((btn, i) => {
+        btn.disabled = true;
+        btn.style.backgroundColor = i === correta ? "#4caf50" : "#e57373";
+      });
+
+      // Som para acerto ou erro
+      if (escolhida === correta) {
+        document.getElementById("correct-sound").play();
+      } else {
+        document.getElementById("incorrect-sound").play();
+      }
+
+      setTimeout(() => {
+        perguntaIndex++;
+        mostrarPergunta();
+      }, 1000);
+    }
+
+    function iniciarProximaFase() {
+      faseAtual++;
+      perguntaIndex = 0;
+      mostrarPergunta();
+    }
+
+    function reiniciar() {
+      faseAtual = 1;
+      perguntaIndex = 0;
+      mostrarPergunta();
+    }
+
+    function voltarInicio() {
+      window.location.href = "../index.html"; // Ajuste o caminho se necessário
+    }
+
+    mostrarPergunta();
+  </script>
+</body>
+</html>
