@@ -3,53 +3,98 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Site Cristão - Página Inicial</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Site Cristão</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    .header, .footer {
+      background-color: #2d3e50;
+      color: white;
+      padding: 10px;
+      text-align: center;
+    }
+
+    .nav {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .nav a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #2d3e50;
+      font-weight: bold;
+    }
+
+    .container {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .versiculo, .recursos {
+      margin: 20px 0;
+      font-size: 1.2em;
+    }
+
+    .footer {
+      font-size: 0.9em;
+      padding: 10px;
+    }
+
+    .gallery {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+    }
+
+    .gallery img {
+      width: 150px;
+      margin: 0 10px;
+    }
+  </style>
 </head>
 <body>
 
-  <header>
-    <div class="logo">
-      <h1>Bem-vindo ao Site Cristão!</h1>
-      <p>Encontre estudos, devocionais e recursos cristãos para o seu crescimento espiritual.</p>
-    </div>
-    <nav>
-      <ul>
-        <li><a href="index.html">Início</a></li>
-        <li><a href="devocionais.html">Devocionais</a></li>
-        <li><a href="estudos.html">Estudos Bíblicos</a></li>
-        <li><a href="quiz.html">Quiz Bíblico</a></li>
-        <li><a href="contato.html">Contato</a></li>
-      </ul>
-    </nav>
-  </header>
+  <div class="header">
+    <h1>Bem-vindo ao Site Cristão!</h1>
+    <p>Encontre estudos, devocionais e recursos cristãos para o seu crescimento espiritual.</p>
+  </div>
 
-  <main>
-    <section class="destaques">
+  <div class="nav">
+    <a href="#inicio">Início</a>
+    <a href="#devocionais">Devocionais</a>
+    <a href="#estudos">Estudos Bíblicos</a>
+    <a href="#quiz">Quiz Bíblico</a>
+    <a href="#contato">Contato</a>
+  </div>
+
+  <div class="container">
+    <div class="versiculo">
       <h2>Versículo do Dia</h2>
-      <p><strong>Filipenses 4:13</strong> - "Posso todas as coisas naquele que me fortalece."</p>
-    </section>
+      <p>Filipenses 4:13 - "Posso todas as coisas naquele que me fortalece."</p>
+    </div>
 
-    <section class="recursos">
+    <div class="recursos">
       <h2>Recursos Cristãos</h2>
       <p>Acesse nossos devocionais, estudos e outros conteúdos para fortalecer sua fé.</p>
-      <a href="devocionais.html" class="btn">Veja Devocionais</a>
-      <a href="estudos.html" class="btn">Veja Estudos</a>
-    </section>
+      <a href="#devocionais">Veja Devocionais</a> | <a href="#estudos">Veja Estudos</a>
+    </div>
 
-    <section class="galeria">
-      <h2>Galeria</h2>
-      <div class="image-gallery">
-        <img src="imagens/biblia.jpg" alt="Bíblia">
-        <img src="imagens/cruz.jpg" alt="Cruz">
-      </div>
-    </section>
-  </main>
+    <div class="gallery">
+      <img src="bible.jpg" alt="Bíblia">
+      <img src="cross.jpg" alt="Cruz">
+    </div>
+  </div>
 
-  <footer>
-    <p>&copy; 2025 Site Cristão</p>
-    <p><a href="contato.html">Contato</a> | <a href="sobre.html">Sobre</a></p>
-  </footer>
+  <div class="footer">
+    <p>© 2025 Site Cristão</p>
+    <p><a href="#contato">Contato</a> | <a href="#sobre">Sobre esta página</a></p>
+  </div>
 
 </body>
 </html>
