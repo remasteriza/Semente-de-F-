@@ -1,81 +1,110 @@
+/* Fonte e estrutura geral */
 body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f5f5f5 url('../imagens/fundo-cristao.jpg') no-repeat center center fixed;
+    background-size: cover;
     margin: 0;
     padding: 0;
-    font-family: 'Inter', sans-serif;
-    background: linear-gradient(120deg, #f7f4ed, #e5d9f2);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
-  .quiz-container {
-    background-color: #ffffff;
-    border-radius: 16px;
-    padding: 30px;
-    max-width: 500px;
-    width: 90%;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    text-align: center;
-  }
-  
-  h1 {
-    color: #5c4d7d;
-    margin-bottom: 10px;
-  }
-  
-  .top-image {
-    width: 60px;
-    margin-bottom: 10px;
-  }
-  
-  .fase-atual {
-    font-size: 16px;
-    margin: 10px 0;
-    color: #8b7bb4;
-  }
-  
-  .pergunta {
-    font-size: 18px;
-    margin: 20px 0;
     color: #333;
   }
   
-  .opcoes-container {
+  header {
+    background-color: #3e8e41;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+  }
+  
+  header h1 {
+    margin: 0;
+    font-size: 2rem;
+  }
+  
+  nav a {
+    margin: 0 10px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  nav a:hover {
+    text-decoration: underline;
+  }
+  
+  main {
+    padding: 2rem;
+    max-width: 700px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  }
+  
+  #quiz-container {
+    text-align: center;
+  }
+  
+  #pergunta h3 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+  
+  #opcoes {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 1rem;
   }
   
-  .opcoes-container button {
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
+  button.opcao {
+    background-color: #e0e0e0;
+    border: 2px solid #ccc;
     border-radius: 8px;
-    background-color: #f0e6ff;
-    color: #5c4d7d;
+    padding: 10px;
+    font-size: 1rem;
     cursor: pointer;
-    transition: background 0.3s;
+    transition: all 0.3s ease;
   }
   
-  .opcoes-container button:hover {
-    background-color: #d9c8f0;
+  button.opcao:hover {
+    background-color: #d3e8d3;
   }
   
-  .botoes button {
-    margin: 5px;
-    padding: 10px 18px;
-    background-color: #5c4d7d;
+  #proxima,
+  #reiniciar {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #3e8e41;
     color: white;
     border: none;
-    border-radius: 6px;
-    font-size: 14px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background 0.3s;
+    margin-top: 1rem;
   }
   
-  .botoes button:hover {
-    background-color: #443a5a;
+  #proxima:hover,
+  #reiniciar:hover {
+    background-color: #2e7031;
+  }
+  
+  #resultado {
+    font-size: 1.2rem;
+    margin-top: 2rem;
+    color: #3e8e41;
+    font-weight: bold;
+  }
+  
+  #contador {
+    font-style: italic;
+    margin-bottom: 10px;
+  }
+  
+  footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: #3e8e41;
+    color: white;
+    margin-top: 2rem;
+    border-top: 4px solid #2e7031;
   }
   
