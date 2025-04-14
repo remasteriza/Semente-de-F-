@@ -51,6 +51,9 @@
     .next-phase-button:hover {
       background-color: #0b7dda;
     }
+    .start-options {
+      margin-top: 30px;
+    }
   </style>
 </head>
 <body>
@@ -58,10 +61,16 @@
   <h1>Quiz Bíblico</h1>
 
   <div id="quiz-container">
+    <!-- Opções ao carregar a página -->
+    <div id="start-options" class="start-options">
+      <button class="next-phase-button" onclick="reiniciarQuiz()">Começar Novamente</button>
+      <button class="next-phase-button" onclick="continuarDeOndeParou()">Continuar de Onde Parou</button>
+    </div>
+
     <!-- Fase 1 -->
-    <div id="fase-1" class="fase">
+    <div id="fase-1" class="fase hidden">
       <h2>Fase 1</h2>
-      <div id="pergunta-1" class="pergunta">
+      <div id="pergunta-1" class="pergunta hidden">
         <p class="question">Qual é o primeiro livro da Bíblia?</p>
         <button class="answer-button" onclick="verificarResposta('fase-1', 1, 'A')">Gênesis</button>
         <button class="answer-button" onclick="verificarResposta('fase-1', 1, 'B')">Êxodo</button>
@@ -86,11 +95,8 @@
     </div>
   </div>
 
-  <!-- Botão para voltar ao início -->
-  <button class="next-phase-button" onclick="window.location.href='index.html'">Voltar ao Início</button>
-
   <script>
-    let respostasCorretas = {
+    const respostasCorretas = {
       'fase-1': ['A'],
       'fase-2': ['B'],
     };
@@ -98,6 +104,7 @@
     let faseAtual = 1;
     let perguntaAtual = 1;
 
+    // Função para verificar se a resposta está correta
     function verificarResposta(fase, pergunta, resposta) {
       const respostaCorreta = respostasCorretas[fase][pergunta - 1];
       const botoes = document.querySelectorAll(`#${fase} #pergunta-${pergunta} .answer-button`);
@@ -120,10 +127,15 @@
         });
       }
 
+      // Salvar o progresso no localStorage
+      localStorage.setItem('faseAtual', faseAtual);
+      localStorage.setItem('perguntaAtual', pergunta);
+
       // Exibir o botão para a próxima pergunta
       document.getElementById(`next-phase-${fase}`).classList.remove('hidden');
     }
 
+    // Função para mudar para a próxima pergunta
     function mudarParaProximaPergunta(nextPergunta, fase) {
       // Esconde a pergunta atual
       const pergunta = document.getElementById(`${fase}-pergunta-${perguntaAtual}`);
@@ -143,6 +155,35 @@
           perguntaAtual = 1; // Reinicia as perguntas para a próxima fase
         }
       }
+    }
+
+    // Função para continuar de onde parou
+    function continuarDeOndeParou() {
+      const faseSalva = localStorage.getItem('faseAtual');
+      const perguntaSalva = localStorage.getItem('perguntaAtual');
+
+      if (faseSalva && perguntaSalva) {
+        faseAtual = parseInt(faseSalva);
+        perguntaAtual = parseInt(perguntaSalva);
+
+        // Esconde as opções de reiniciar e continua o quiz
+        document.getElementById('start-options').classList.add('hidden');
+        document.getElementById(`fase-${faseAtual}`).classList.remove('hidden');
+        document.getElementById(`${faseAtual}-pergunta-${perguntaAtual}`).classList.remove('hidden');
+      } else {
+        alert("Você ainda não iniciou o quiz. Por favor, comece a partir de uma fase.");
+      }
+    }
+
+    // Função para reiniciar o quiz
+    function reiniciarQuiz() {
+      localStorage.removeItem('faseAtual');
+      localStorage.removeItem('perguntaAtual');
+      faseAtual = 1;
+      perguntaAtual = 1;
+      document.getElementById('start-options').classList.add('hidden');
+      document.getElementById('fase-1').classList.remove('hidden');
+      document.getElementById('pergunta-1').classList.remove('hidden');
     }
   </script>
 </body>
