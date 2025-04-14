@@ -3,192 +3,134 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Quiz Bíblico - Fases</title>
+  <title>Quiz Bíblico</title>
   <style>
-    /* Estilos simplificados para exemplo */
     body {
       font-family: Arial, sans-serif;
-      background-color: #f9f9f9;
+      background-color: #f4f4f9;
       color: #333;
-      margin: 0;
-      padding: 0;
-    }
-    .quiz-container {
-      width: 80%;
-      max-width: 800px;
-      margin: 50px auto;
       padding: 20px;
-      background-color: #fff;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    }
-    h2 {
       text-align: center;
-      font-size: 1.8em;
-      color: #2f4f4f;
     }
     .question {
+      font-size: 1.5em;
       margin: 20px 0;
     }
-    .answers {
-      list-style-type: none;
-      padding: 0;
-    }
-    .answers li {
-      margin: 10px 0;
-    }
-    button {
+    .answer-button {
       background-color: #4CAF50;
       color: white;
       padding: 10px 20px;
+      margin: 10px;
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      transition: background-color 0.3s ease;
+      font-size: 1.1em;
     }
-    button:hover {
+    .answer-button:hover {
       background-color: #45a049;
     }
-    .timer {
-      font-size: 1.5em;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .result {
-      text-align: center;
-      font-size: 1.2em;
-      margin-top: 20px;
-    }
-    .correct {
+    .answer-button.correct {
       background-color: #4CAF50;
     }
-    .incorrect {
+    .answer-button.incorrect {
       background-color: #f44336;
+    }
+    .hidden {
+      display: none;
+    }
+    .next-phase-button {
+      background-color: #2196F3;
+      color: white;
+      padding: 15px 30px;
+      margin-top: 30px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1.2em;
+      cursor: pointer;
+    }
+    .next-phase-button:hover {
+      background-color: #0b7dda;
     }
   </style>
 </head>
 <body>
-  <div class="quiz-container">
-    <h2>Quiz Bíblico - Fases</h2>
 
-    <div id="timer" class="timer">Tempo restante: 30s</div>
+  <h1>Quiz Bíblico</h1>
 
+  <div id="quiz-container">
     <!-- Fase 1 -->
-    <div id="fase-1" class="question">
-      <p><strong>1. Qual é o primeiro livro da Bíblia?</strong></p>
-      <p><em>Este livro relata a criação do mundo e o início da humanidade.</em></p>
-      <ul class="answers">
-        <li><button onclick="checkAnswer('fase-1', 'a')">a) Gênesis</button></li>
-        <li><button onclick="checkAnswer('fase-1', 'b')">b) Êxodo</button></li>
-        <li><button onclick="checkAnswer('fase-1', 'c')">c) Levítico</button></li>
-        <li><button onclick="checkAnswer('fase-1', 'd')">d) Salmos</button></li>
-      </ul>
+    <div id="fase-1" class="fase">
+      <h2>Fase 1</h2>
+      <div id="pergunta-1" class="pergunta">
+        <p class="question">Qual é o primeiro livro da Bíblia?</p>
+        <button class="answer-button" onclick="verificarResposta('fase-1', 1, 'A')">Gênesis</button>
+        <button class="answer-button" onclick="verificarResposta('fase-1', 1, 'B')">Êxodo</button>
+        <button class="answer-button" onclick="verificarResposta('fase-1', 1, 'C')">Levítico</button>
+        <button class="answer-button" onclick="verificarResposta('fase-1', 1, 'D')">Números</button>
+      </div>
+      <!-- Botão para próxima pergunta -->
+      <button class="next-phase-button hidden" id="next-phase-1" onclick="mudarParaProximaPergunta(2, 'fase-1')">Próxima Pergunta</button>
     </div>
 
-    <!-- Pergunta 2 -->
-    <div id="fase-1" class="question">
-      <p><strong>2. Quem traiu Jesus?</strong></p>
-      <p><em>Esse discípulo o entregou por 30 moedas de prata.</em></p>
-      <ul class="answers">
-        <li><button onclick="checkAnswer('fase-1', 'a')">a) Judas Iscariotes</button></li>
-        <li><button onclick="checkAnswer('fase-1', 'b')">b) Pedro</button></li>
-        <li><button onclick="checkAnswer('fase-1', 'c')">c) João</button></li>
-        <li><button onclick="checkAnswer('fase-1', 'd')">d) Tomé</button></li>
-      </ul>
-    </div>
-
-    <!-- Adicione as outras perguntas aqui -->
-    
-    <div id="fase-2" class="question" style="display: none;">
-      <p><strong>7. Quem foi o profeta que desafiou os profetas de Baal?</strong></p>
-      <ul class="answers">
-        <li><button onclick="checkAnswer('fase-2', 'a')">a) Elias</button></li>
-        <li><button onclick="checkAnswer('fase-2', 'b')">b) Moisés</button></li>
-        <li><button onclick="checkAnswer('fase-2', 'c')">c) Daniel</button></li>
-        <li><button onclick="checkAnswer('fase-2', 'd')">d) Jeremias</button></li>
-      </ul>
-    </div>
-
-    <div id="score" class="result">
-      <p><strong>Acertos:</strong> <span id="score-value">0</span></p>
-      <p><strong>Fase:</strong> <span id="fase-value">1</span></p>
-      <button onclick="nextPhase()">Próxima Fase</button>
+    <!-- Fase 2 -->
+    <div id="fase-2" class="fase hidden">
+      <h2>Fase 2</h2>
+      <div id="pergunta-2" class="pergunta">
+        <p class="question">Quem foi o rei de Israel conhecido por sua sabedoria?</p>
+        <button class="answer-button" onclick="verificarResposta('fase-2', 2, 'A')">Davi</button>
+        <button class="answer-button" onclick="verificarResposta('fase-2', 2, 'B')">Salomão</button>
+        <button class="answer-button" onclick="verificarResposta('fase-2', 2, 'C')">Saul</button>
+        <button class="answer-button" onclick="verificarResposta('fase-2', 2, 'D')">Ezequias</button>
+      </div>
+      <button class="next-phase-button hidden" id="next-phase-2" onclick="mudarParaProximaPergunta(3, 'fase-2')">Próxima Pergunta</button>
     </div>
   </div>
 
   <script>
-    let score = 0;
-    let currentPhase = 1;
-    let currentQuestion = 1;
-    let totalQuestions = 6; // Mude conforme a fase
-    let timeRemaining = 30;
-    let timerInterval;
-
-    const correctAnswers = {
-      'fase-1': ['a', 'a', 'a', 'a', 'b', 'b'], // Exemplo de respostas para Fase 1
-      'fase-2': ['a', 'b', 'b', 'c', 'a', 'a', 'b', 'a', 'b', 'a'], // Exemplo para Fase 2
-      // Adicione as respostas para outras fases
+    let respostasCorretas = {
+      'fase-1': ['A'],
+      'fase-2': ['B'],
     };
 
-    function startTimer() {
-      timerInterval = setInterval(function() {
-        document.getElementById('timer').textContent = `Tempo restante: ${timeRemaining}s`;
-        timeRemaining--;
-        if (timeRemaining < 0) {
-          clearInterval(timerInterval);
-          alert("Tempo esgotado! A resposta será marcada como errada.");
-          checkAnswer('fase-' + currentPhase, null);
-        }
-      }, 1000);
-    }
+    let faseAtual = 1;
+    let perguntaAtual = 1;
 
-    function checkAnswer(phase, answer) {
-      const buttons = document.querySelectorAll(`#${phase} button`);
-      buttons.forEach((button) => {
-        button.disabled = true;
-        if (button.innerText.toLowerCase().includes(correctAnswers[phase][currentQuestion - 1])) {
-          button.classList.add('correct');
-        } else {
-          button.classList.add('incorrect');
-        }
-      });
-
-      if (answer === correctAnswers[phase][currentQuestion - 1]) {
-        score++;
-      }
-      updateScore();
-      if (currentQuestion < totalQuestions) {
-        currentQuestion++;
-        loadNextQuestion();
+    function verificarResposta(fase, pergunta, resposta) {
+      const respostaCorreta = respostasCorretas[fase][pergunta - 1];
+      const botoes = document.querySelectorAll(`#${fase} #pergunta-${pergunta} .answer-button`);
+      
+      if (resposta === respostaCorreta) {
+        botoes.forEach(button => {
+          if (button.innerText === botoes[0].innerText) {
+            button.classList.add('correct');
+          }
+        });
       } else {
-        nextPhase();
+        botoes.forEach(button => {
+          if (button.innerText === botoes[0].innerText) {
+            button.classList.add('incorrect');
+          }
+        });
       }
+
+      document.getElementById(`next-phase-${fase}`).classList.remove('hidden');
     }
 
-    function loadNextQuestion() {
-      document.getElementById(`fase-${currentPhase}`).style.display = 'none';
-      document.getElementById(`fase-${currentPhase + 1}`).style.display = 'block';
-      currentPhase++;
-      timeRemaining = 30;
-      startTimer();
-    }
-
-    function nextPhase() {
-      document.getElementById(`fase-${currentPhase}`).style.display = 'none';
-      currentPhase++;
-      if (currentPhase <= totalQuestions) {
-        document.getElementById(`fase-${currentPhase}`).style.display = 'block';
+    function mudarParaProximaPergunta(nextPergunta, fase) {
+      perguntaAtual++;
+      const pergunta = document.getElementById(`${fase}-pergunta-${perguntaAtual - 1}`);
+      pergunta.classList.add('hidden');
+      if (document.getElementById(`${fase}-pergunta-${perguntaAtual}`)) {
+        const proximaPergunta = document.getElementById(`${fase}-pergunta-${perguntaAtual}`);
+        proximaPergunta.classList.remove('hidden');
       } else {
-        alert("Quiz completo! Você finalizou com " + score + " acertos.");
+        document.getElementById(`next-phase-${fase}`).classList.add('hidden');
+        if (faseAtual < 2) {
+          faseAtual++;
+          document.getElementById(`fase-${faseAtual}`).classList.remove('hidden');
+        }
       }
     }
-
-    function updateScore() {
-      document.getElementById('score-value').innerText = score;
-      document.getElementById('fase-value').innerText = currentPhase;
-    }
-
-    startTimer();
   </script>
 </body>
 </html>
