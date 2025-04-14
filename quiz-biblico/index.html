@@ -4,18 +4,22 @@
   <meta charset="UTF-8">
   <title>Quiz Bíblico</title>
   <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="quiz-container">
+    <img src="https://i.imgur.com/5yF6bl3.png" alt="Cruz" class="top-image">
     <h1>Quiz Bíblico</h1>
-    <div id="question">Carregando pergunta...</div>
+    <p class="fase-atual" id="faseInfo">Fase 1</p>
+    
+    <div id="question" class="pergunta">Carregando pergunta...</div>
     
     <div id="alternatives" class="opcoes-container"></div>
     
     <div class="botoes">
-      <button id="nextPhaseBtn" onclick="iniciarProximaFase()" style="display: none;">Próxima Fase</button>
-      <button id="restartBtn" onclick="reiniciar()" style="display: none;">Reiniciar</button>
-      <button onclick="voltarInicio()">Voltar ao Início</button>
+      <button id="nextPhaseBtn" onclick="iniciarProximaFase()">Próxima Fase</button>
+      <button id="restartBtn" onclick="reiniciar()">Reiniciar</button>
+      <button onclick="voltarInicio()">Início</button>
     </div>
   </div>
 
