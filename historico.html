@@ -7,61 +7,47 @@
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: 'Quicksand', sans-serif;
-      background: #f9f9f9;
-      margin: 20px;
-      color: #333;
+      font-family: 'Quicksand', Arial, sans-serif;
+      background: #f6fff8;
+      margin: 0;
+      padding: 0;
+      color: #2f4f4f;
     }
 
-    header, footer {
+    header {
+      background-color: #a7d7c5;
+      padding: 20px;
       text-align: center;
-      padding: 10px;
+      color: #fff;
+      border-bottom: 3px solid #5b8f85;
     }
 
     nav a {
-      margin: 0 10px;
+      margin: 0 15px;
       text-decoration: none;
-      color: #4a7c59;
+      color: #fff;
       font-weight: bold;
     }
 
-    h2 {
-      text-align: center;
-      color: #4a7c59;
-      margin-top: 20px;
+    main {
+      padding: 40px 20px 100px;
     }
 
     #busca {
       width: 100%;
       max-width: 600px;
-      display: block;
       margin: 20px auto;
       padding: 10px 16px;
       border-radius: 8px;
       border: 1px solid #ccc;
-      font-size: 16px;
     }
 
-    ul#lista-historico {
-      list-style: none;
-      padding: 0;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    ul#lista-historico li {
-      background: #fff;
-      margin-bottom: 12px;
-      padding: 14px 18px;
+    .card {
+      background-color: #f1fdf6;
+      margin-bottom: 20px;
+      padding: 20px;
       border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-      border-left: 5px solid #4a7c59;
-      transition: 0.3s;
-      position: relative;
-    }
-
-    ul#lista-historico li:hover {
-      background: #f1fff5;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
     .favorito {
@@ -72,27 +58,27 @@
       float: right;
       cursor: pointer;
     }
+
+    .favorito:hover {
+      color: #f39c12;
+    }
   </style>
 </head>
 <body>
+
   <header>
     <h1>Semente de Fé 🌱</h1>
     <nav>
       <a href="index.html">Início</a>
-      <a href="historico.html" class="active">Histórico</a>
+      <a href="historico.html">Histórico</a>
       <a href="diario.html">Meu Diário</a>
-      <a href="sobre.html">Sobre</a>
+      <a href="devocionais.html">Devocionais</a>
     </nav>
   </header>
 
   <main>
-    <h2>Histórico de Versículos</h2>
-    
-    <!-- 🔍 Campo de busca -->
     <input type="text" id="busca" placeholder="Buscar versículo ou palavra..." />
-
-    <!-- 📝 Lista de versículos -->
-    <ul id="lista-historico"></ul>
+    <div id="lista-historico"></div>
   </main>
 
   <footer>
@@ -100,81 +86,33 @@
   </footer>
 
   <script>
-    // Exemplo de versículos
     const versiculos = [
-      {
-        texto: "O Senhor é meu pastor, nada me faltará. – Salmos 23:1",
-        reflexao: "Confie que Deus cuida de cada detalhe da sua vida, mesmo quando você não entende o processo."
-      },
-      {
-        texto: "Entrega o teu caminho ao Senhor; confia nele, e ele o fará. – Salmos 37:5",
-        reflexao: "A entrega verdadeira traz paz. Confie seus planos a Deus."
-      },
-      {
-        texto: "Tudo posso naquele que me fortalece. – Filipenses 4:13",
-        reflexao: "A força que você precisa não vem de você, mas dEle."
-      },
-      {
-        texto: "Lâmpada para os meus pés é tua palavra, e luz para o meu caminho. – Salmos 119:105",
-        reflexao: "A Bíblia é guia para suas decisões. Deixe-se iluminar por ela."
-      }
+      { texto: "O Senhor é meu pastor, nada me faltará. – Salmos 23:1", reflexao: "Confie que Deus cuida de cada detalhe da sua vida." },
+      { texto: "Entrega o teu caminho ao Senhor; confia nele, e ele o fará. – Salmos 37:5", reflexao: "Confie seus planos a Deus." },
+      { texto: "Tudo posso naquele que me fortalece. – Filipenses 4:13", reflexao: "A força vem de Deus." },
+      { texto: "Lâmpada para os meus pés é tua palavra. – Salmos 119:105", reflexao: "A palavra de Deus é o seu guia." }
     ];
 
-    const lista = document.getElementById("lista-historico");
-    const busca = document.getElementById("busca");
-
-    // Carregar lista de versículos
     function carregarLista() {
+      const lista = document.getElementById("lista-historico");
       lista.innerHTML = '';
       versiculos.forEach((item) => {
-        const li = document.createElement("li");
-        const favorito = isFavorito(item.texto) ? "⭐" : "☆";
-
-        li.innerHTML = `
-          <strong>${item.texto}</strong> 
-          <button class="favorito" data-texto="${item.texto}">${favorito}</button><br>
+        const div = document.createElement("div");
+        div.classList.add("card");
+        div.innerHTML = `
+          <strong>${item.texto}</strong><br>
           <em>${item.reflexao}</em>
+          <button class="favorito">⭐</button>
         `;
-        li.dataset.texto = `${item.texto.toLowerCase()} ${item.reflexao.toLowerCase()}`;
-        lista.appendChild(li);
-
-        const btn = li.querySelector(".favorito");
-        btn.addEventListener("click", () => {
-          alternarFavorito(item.texto);
-          carregarLista(); // recarrega para atualizar a estrela
+        lista.appendChild(div);
+        const favoritoBtn = div.querySelector(".favorito");
+        favoritoBtn.addEventListener("click", () => {
+          // Funcionalidade de favoritar
+          favoritoBtn.classList.toggle("favorito-ativo");
         });
       });
     }
 
-    // Verificar se o versículo está marcado como favorito
-    function isFavorito(texto) {
-      const favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
-      return favoritos.includes(texto);
-    }
-
-    // Alternar o estado de favorito
-    function alternarFavorito(texto) {
-      let favoritos = JSON.parse(localStorage.getItem('favoritos')) || [];
-      if (favoritos.includes(texto)) {
-        favoritos = favoritos.filter(item => item !== texto);
-      } else {
-        favoritos.push(texto);
-      }
-      localStorage.setItem('favoritos', JSON.stringify(favoritos));
-    }
-
-    // Filtrar versículos com base no termo de busca
-    busca.addEventListener("input", () => {
-      const termo = busca.value.toLowerCase();
-      const itens = lista.querySelectorAll("li");
-
-      itens.forEach(item => {
-        const texto = item.dataset.texto;
-        item.style.display = texto.includes(termo) ? "" : "none";
-      });
-    });
-
-    // Inicializar a página
     carregarLista();
   </script>
 </body>
