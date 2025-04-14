@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quiz Bíblico</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Quiz Bíblico</h1>
+    <nav>
+      <a href="../index.html">Início</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="quiz-container">
+      <h2 id="pergunta"></h2>
+      <ul id="opcoes"></ul>
+      <div id="controle">
+        <p id="fase">Fase 1</p>
+        <p id="pontuacao">Pontuação: 0</p>
+        <button id="proxima" style="display:none;">Próxima</button>
+        <button id="reiniciar" style="display:none; margin-top: 10px;">Voltar ao Início</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Semente de Fé</p>
+  </footer>
+
+  <script>
+    const perguntas = [
+      {
+        pergunta: "Quem construiu a arca?",
+        opcoes: ["Noé", "Moisés", "Abraão", "Davi"],
+        resposta: 0
+      },
+      {
+        pergunta: "Qual foi o primeiro milagre de Jesus?",
+        opcoes: ["Curar um cego", "Andar sobre as águas", "Transformar água em vinho", "Ressuscitar Lázaro"],
+        resposta: 2
+      },
+      {
+        pergunta: "Qual apóstolo negou Jesus três vezes?",
+        opcoes: ["João", "Pedro", "Tiago", "Paulo"],
+        resposta: 1
+      },
+      {
+        pergunta: "Onde Jesus nasceu?",
+        opcoes: ["Jerusalém", "Nazaré", "Belém", "Galileia"],
+        resposta: 2
+      },
+      {
+        pergunta: "Quantos livros tem a Bíblia?",
+        opcoes: ["60", "66", "70", "72"],
+        resposta: 1
+      }
+    ];
+
+    let fase = 0;
+    let pontuacao = 0;
+
+    const perguntaEl = document.getElementById('pergunta');
+    const opcoesEl = document.getElementById('opcoes');
+    const pontuacaoEl = document.getElementById('pontuacao');
+    const faseEl = document.getElementById('fase');
+    const botaoProxima = document.getElementById('proxima');
+    const botaoReiniciar = document.getElementById('reiniciar');
+
+    function carregarPergunta() {
+      const atual = perguntas[fase];
+      perguntaEl.textContent = atual.pergunta;
+      opcoesEl.innerHTML = "";
+
+      atual.opcoes.forEach((opcao, index) => {
+        const li = document.createElement("li");
+        li.textContent = opcao;
+        li.addEventListener("click", () => verificarResposta(index));
+        opcoesEl.appendChild(li);
+      });
+
+      faseEl.textContent = `Fase ${fase + 1}`;
+    }
+
+    function verificarResposta(selecionada) {
+      const atual = perguntas[fase];
+      const opcoesLi = document.querySelectorAll("#opcoes li");
+
+      opcoesLi.forEach((li, index) => {
+        li.style.pointerEvents = "none";
+        if (index === atual.resposta) li.classList.add("correta");
+        if (index === selecionada && index !== atual.resposta) li.classList.add("errada");
+      });
+
+      if (selecionada === atual.resposta) {
+        pontuacao += 10;
+        pontuacaoEl.textContent = `Pontuação: ${pontuacao}`;
+      }
+
+      botaoProxima.style.display = "inline-block";
+    }
+
+    botaoProxima.addEventListener("click", () => {
+      fase++;
+      if (fase < perguntas.length) {
+        carregarPergunta();
+        botaoProxima.style.display = "none";
+      } else {
+        perguntaEl.textContent = "Parabéns! Você finalizou o quiz!";
+        opcoesEl.innerHTML = "";
+        faseEl.style.display = "none";
+        botaoProxima.style.display = "none";
+        botaoReiniciar.style.display = "inline-block";
+      }
+    });
+
+    botaoReiniciar.addEventListener("click", () => {
+      window.location.href = "../index.html";
+    });
+
+    carregarPergunta();
+  </script>
+</body>
+</html>
