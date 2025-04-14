@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quiz Bíblico – Semente de Fé</title>
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: #f9f9f9 url('https://cdn-icons-png.flaticon.com/512/1998/1998614.png') no-repeat top right;
+      background-size: 150px;
+      padding: 20px;
+      color: #333;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      border-left: 8px solid #4a7c59;
+    }
+
+    h1 {
+      text-align: center;
+      color: #4a7c59;
+    }
+
+    .texto-base {
+      font-size: 1.1em;
+      margin-bottom: 20px;
+      background: #f0f9f4;
+      padding: 15px;
+      border-radius: 10px;
+      border-left: 4px solid #84c59c;
+    }
+
+    .pergunta {
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .respostas button {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 10px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #eef5ee;
+      transition: 0.3s;
+    }
+
+    .respostas button:hover {
+      background-color: #dcefe0;
+    }
+
+    .respostas button.correta {
+      background-color: #a2f1af;
+      color: #064e15;
+      font-weight: bold;
+    }
+
+    .respostas button.errada {
+      background-color: #f8bdbd;
+      color: #7b1c1c;
+    }
+
+    .pontuacao {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 1.3em;
+      color: #2d6b4d;
+    }
+
+    .timer {
+      text-align: center;
+      font-size: 18px;
+      margin-bottom: 20px;
+      color: #444;
+    }
+
+    .reiniciar {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .reiniciar button {
+      background: #4a7c59;
+      color: white;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .reiniciar button:hover {
+      background: #3a6d4b;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📖 Quiz Bíblico</h1>
+    <div class="timer">⏱️ Tempo: <span id="tempo">20</span>s</div>
+    <div class="texto-base" id="textoBase"></div>
+    <div class="pergunta" id="pergunta"></div>
+    <div class="respostas" id="respostas"></div>
+    <div class="pontuacao" id="pontuacao"></div>
+    <div class="reiniciar" id="reiniciar" style="display:none;">
+      <button onclick="reiniciarQuiz()">Reiniciar Quiz</button>
+    </div>
+  </div>
+
+  <script>
+    const perguntas = [
+      {
+        textoBase: "João 3:16 - 'Porque Deus amou o mundo de tal maneira...'",
+        pergunta: "Quem Deus enviou ao mundo por amor?",
+        opcoes: ["Um profeta", "Um anjo", "Seu Filho", "Moisés"],
+        correta: 2
+      },
+      {
+        textoBase: "Salmos 23:1 - 'O Senhor é o meu pastor...'",
+        pergunta: "O que não faltará, segundo o salmo?",
+        opcoes: ["Alegria", "Nada", "Força", "Esperança"],
+        correta: 1
+      },
+      {
+        textoBase: "Gênesis 1:1 - 'No princípio, criou Deus...'",
+        pergunta: "O que Deus criou primeiro?",
+        opcoes: ["Homem", "Terra e Céus", "Luz", "Animais"],
+        correta: 1
+      },
+      {
+        textoBase: "Mateus 6:33 - 'Buscai primeiro o Reino de Deus...'",
+        pergunta: "O que será acrescentado se buscarmos o Reino?",
+        opcoes: ["Milagres", "Sabedoria", "Tudo", "Riquezas"],
+        correta: 2
+      }
+    ];
+
+    let indiceAtual = 0;
+    let acertos = 0;
+    let tempoRestante = 20;
+    let intervalo;
+
+    function iniciarQuiz() {
+      mostrarPergunta();
+      iniciarTempo();
+    }
+
+    function mostrarPergunta() {
+      const q = perguntas[indiceAtual];
+      document.getElementById('textoBase').innerText = q.textoBase;
+      document.getElementById('pergunta').innerText = q.pergunta;
+
+      const containerRespostas = document.getElementById('respostas');
+      containerRespostas.innerHTML = '';
+
+      q.opcoes.forEach((opcao, i) => {
+        const botao = document.createElement('button');
+        botao.innerText = opcao;
+        botao.onclick = () => verificarResposta(i);
+        containerRespostas.appendChild(botao);
+      });
+    }
+
+    function verificarResposta(selecionada) {
+      clearInterval(intervalo);
+      const q = perguntas[indiceAtual];
+      const botoes = document.querySelectorAll('#respostas button');
+
+      botoes.forEach((btn, i) => {
+        btn.disabled = true;
+        if (i === q.correta) {
+          btn.classList.add('correta');
+        } else if (i === selecionada) {
+          btn.classList.add('errada');
+        }
+      });
+
+      if (selecionada === q.correta) {
+        acertos++;
+        localStorage.setItem('acertosQuiz', acertos);
+      }
+
+      setTimeout(() => {
+        indiceAtual++;
+        if (indiceAtual < perguntas.length) {
+          tempoRestante = 20;
+          mostrarPergunta();
+          iniciarTempo();
+        } else {
+          mostrarResultado();
+        }
+      }, 2000);
+    }
+
+    function iniciarTempo() {
+      document.getElementById('tempo').innerText = tempoRestante;
+      intervalo = setInterval(() => {
+        tempoRestante--;
+        document.getElementById('tempo').innerText = tempoRestante;
+        if (tempoRestante <= 0) {
+          clearInterval(intervalo);
+          verificarResposta(-1); // Não respondeu a tempo
+        }
+      }, 1000);
+    }
+
+    function mostrarResultado() {
+      document.getElementById('textoBase').innerText = "";
+      document.getElementById('pergunta').innerText = "";
+      document.getElementById('respostas').innerHTML = "";
+      document.getElementById('tempo').innerText = "0";
+      document.getElementById('pontuacao').innerText = `Você acertou ${acertos} de ${perguntas.length} perguntas! 🙌`;
+      document.getElementById('reiniciar').style.display = "block";
+    }
+
+    function reiniciarQuiz() {
+      indiceAtual = 0;
+      acertos = 0;
+      localStorage.setItem('acertosQuiz', 0);
+      document.getElementById('pontuacao').innerText = "";
+      document.getElementById('reiniciar').style.display = "none";
+      tempoRestante = 20;
+      iniciarQuiz();
+    }
+
+    iniciarQuiz();
+  </script>
+</body>
+</html>
