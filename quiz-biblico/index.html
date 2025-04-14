@@ -1,193 +1,24 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
   <title>Quiz Bíblico</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f3fdf7;
-      text-align: center;
-      padding: 40px;
-    }
-    .quiz-container {
-      max-width: 600px;
-      margin: auto;
-      background: #fff;
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-    .question {
-      font-size: 1.5em;
-      margin-bottom: 20px;
-    }
-    .alternatives button {
-      display: block;
-      width: 100%;
-      margin: 10px 0;
-      padding: 15px;
-      font-size: 1em;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      background-color: #e8f5e9;
-      transition: background-color 0.3s;
-    }
-    .alternatives button:hover {
-      background-color: #c8e6c9;
-    }
-    .next-phase, .restart-btn, .home-btn {
-      margin-top: 20px;
-      padding: 12px 20px;
-      font-size: 1em;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    .next-phase {
-      background-color: #4caf50;
-      color: #fff;
-      display: none;
-    }
-    .restart-btn {
-      background-color: #2196f3;
-      color: #fff;
-      display: none;
-    }
-    .home-btn {
-      background-color: #f44336;
-      color: #fff;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
   <div class="quiz-container">
     <h1>Quiz Bíblico</h1>
-    <div id="question" class="question"></div>
-    <div id="alternatives" class="alternatives"></div>
-    <img id="question-image" src="" alt="Imagem da Pergunta" style="width: 100%; height: auto; margin-bottom: 20px; display: none;">
-
-    <button class="next-phase" id="nextPhaseBtn" onclick="iniciarProximaFase()">Próxima Fase</button>
-    <button class="restart-btn" id="restartBtn" onclick="reiniciar()">Fazer Novamente</button>
-    <button class="home-btn" onclick="voltarInicio()">Voltar ao Início</button>
+    <div id="question">Carregando pergunta...</div>
+    
+    <div id="alternatives" class="opcoes-container"></div>
+    
+    <div class="botoes">
+      <button id="nextPhaseBtn" onclick="iniciarProximaFase()" style="display: none;">Próxima Fase</button>
+      <button id="restartBtn" onclick="reiniciar()" style="display: none;">Reiniciar</button>
+      <button onclick="voltarInicio()">Voltar ao Início</button>
+    </div>
   </div>
 
-  <audio id="correct-sound" src="correct-answer-sound.mp3" preload="auto"></audio>
-  <audio id="incorrect-sound" src="incorrect-answer-sound.mp3" preload="auto"></audio>
-  <audio id="background-music" src="background-music.mp3" loop autoplay></audio>
-
-  <script>
-    const perguntas = [
-      // Fase 1
-      { fase: 1, pergunta: "Quem foi o primeiro homem?", alternativas: ["Adão", "Moisés", "Noé", "Abraão"], correta: 0 },
-      { fase: 1, pergunta: "Quem construiu a arca?", alternativas: ["Noé", "Moisés", "Abraão", "Davi"], correta: 0 },
-      { fase: 1, pergunta: "Quem foi lançado na cova dos leões?", alternativas: ["Daniel", "José", "Elias", "Pedro"], correta: 0 },
-      { fase: 1, pergunta: "Quem abriu o mar?", alternativas: ["Moisés", "Abraão", "Jesus", "Josué"], correta: 0 },
-      { fase: 1, pergunta: "Qual o primeiro livro da Bíblia?", alternativas: ["Gênesis", "Êxodo", "Salmos", "Mateus"], correta: 0 },
-      { fase: 1, pergunta: "Quantos discípulos Jesus teve?", alternativas: ["12", "7", "70", "10"], correta: 0 },
-
-      // Fase 2
-      { fase: 2, pergunta: "Quem traiu Jesus?", alternativas: ["Pedro", "Tiago", "Judas", "João"], correta: 2 },
-      { fase: 2, pergunta: "Quem escreveu Apocalipse?", alternativas: ["João", "Paulo", "Pedro", "Lucas"], correta: 0 },
-      { fase: 2, pergunta: "Quem foi o gigante derrotado por Davi?", alternativas: ["Golias", "Saul", "Esaú", "Caim"], correta: 0 },
-      { fase: 2, pergunta: "Quem foi mãe de Jesus?", alternativas: ["Maria", "Marta", "Sara", "Ana"], correta: 0 },
-
-      // Fase 3 (Aumentando a dificuldade)
-      { fase: 3, pergunta: "Quem foi o profeta que desafiou os profetas de Baal no monte Carmelo?", alternativas: ["Elias", "Moisés", "Isaías", "Amós"], correta: 0 },
-      { fase: 3, pergunta: "Qual o nome do gigante derrotado por Davi?", alternativas: ["Golias", "Goliath", "Geleão", "Geás"], correta: 0 },
-
-      // Fase 4
-      { fase: 4, pergunta: "Quem foi o rei que escreveu muitos dos Provérbios?", alternativas: ["Salomão", "Davi", "Saul", "Ezequias"], correta: 0 },
-
-      // Fase Bônus
-      { fase: 12, pergunta: "Qual é o versículo mais curto da Bíblia?", alternativas: ["Jesus chorou.", "Ame o próximo.", "Deus é amor.", "Eu sou o caminho."], correta: 0 },
-      { fase: 12, pergunta: "Quem escreveu o livro de Eclesiastes?", alternativas: ["Salomão", "Isaías", "Moisés", "Davi"], correta: 0 },
-
-      // Perguntas com Imagens
-      { fase: 5, pergunta: "Quem é o personagem da imagem?", alternativas: ["Davi", "Moisés", "Jesus", "João"], correta: 0, tipo: "imagem", imagem: "imagem-de-davi.jpg" },
-    ];
-
-    let faseAtual = 1;
-    let perguntaIndex = 0;
-
-    function getPerguntasFase(fase) {
-      return perguntas.filter(p => p.fase === fase);
-    }
-
-    function mostrarPergunta() {
-      const perguntasFase = getPerguntasFase(faseAtual);
-
-      if (perguntaIndex >= perguntasFase.length) {
-        document.getElementById("question").innerText = `Fase ${faseAtual} concluída!`;
-        document.getElementById("alternatives").innerHTML = "";
-        document.getElementById("nextPhaseBtn").style.display = "inline-block";
-        document.getElementById("restartBtn").style.display = "inline-block";
-        return;
-      }
-
-      const pergunta = perguntasFase[perguntaIndex];
-      document.getElementById("question").innerText = pergunta.pergunta;
-
-      if (pergunta.tipo === "imagem") {
-        document.getElementById("question-image").style.display = "block";
-        document.getElementById("question-image").src = pergunta.imagem;
-      } else {
-        document.getElementById("question-image").style.display = "none";
-      }
-
-      const altDiv = document.getElementById("alternatives");
-      altDiv.innerHTML = "";
-      pergunta.alternativas.forEach((alt, i) => {
-        const btn = document.createElement("button");
-        btn.innerText = alt;
-        btn.onclick = () => verificarResposta(i, pergunta.correta);
-        altDiv.appendChild(btn);
-      });
-
-      document.getElementById("nextPhaseBtn").style.display = "none";
-      document.getElementById("restartBtn").style.display = "none";
-    }
-
-    function verificarResposta(escolhida, correta) {
-      const botoes = document.querySelectorAll("#alternatives button");
-      botoes.forEach((btn, i) => {
-        btn.disabled = true;
-        btn.style.backgroundColor = i === correta ? "#4caf50" : "#e57373";
-      });
-
-      // Som para acerto ou erro
-      if (escolhida === correta) {
-        document.getElementById("correct-sound").play();
-      } else {
-        document.getElementById("incorrect-sound").play();
-      }
-
-      setTimeout(() => {
-        perguntaIndex++;
-        mostrarPergunta();
-      }, 1000);
-    }
-
-    function iniciarProximaFase() {
-      faseAtual++;
-      perguntaIndex = 0;
-      mostrarPergunta();
-    }
-
-    function reiniciar() {
-      faseAtual = 1;
-      perguntaIndex = 0;
-      mostrarPergunta();
-    }
-
-    function voltarInicio() {
-      window.location.href = "../index.html"; // Ajuste o caminho se necessário
-    }
-
-    mostrarPergunta();
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
