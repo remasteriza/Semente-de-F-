@@ -6,65 +6,73 @@
   <title>Quiz Bíblico</title>
   <style>
     body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f1f8f5;
-      padding: 30px;
+      font-family: Arial, sans-serif;
+      background-color: #f3fdf7;
       text-align: center;
+      padding: 40px;
+    }
+    .quiz-container {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
     .question {
-      font-size: 1.8em;
+      font-size: 1.5em;
       margin-bottom: 20px;
     }
     .alternatives button {
       display: block;
-      width: 60%;
-      margin: 10px auto;
+      width: 100%;
+      margin: 10px 0;
       padding: 15px;
-      font-size: 1.2em;
+      font-size: 1em;
       border: none;
-      border-radius: 10px;
+      border-radius: 8px;
       cursor: pointer;
-      background-color: #e0f2f1;
-      transition: background 0.3s;
+      background-color: #e8f5e9;
+      transition: background-color 0.3s;
     }
     .alternatives button:hover {
-      background-color: #b2dfdb;
+      background-color: #c8e6c9;
     }
-    .next-button, .start-next-phase, .back-home {
-      margin-top: 30px;
-      padding: 12px 24px;
-      font-size: 1.1em;
+    .next-phase, .restart-btn, .home-btn {
+      margin-top: 20px;
+      padding: 12px 20px;
+      font-size: 1em;
       border: none;
       border-radius: 8px;
       cursor: pointer;
     }
-    .next-button {
+    .next-phase {
       background-color: #4caf50;
-      color: white;
+      color: #fff;
       display: none;
     }
-    .start-next-phase {
+    .restart-btn {
       background-color: #2196f3;
-      color: white;
+      color: #fff;
       display: none;
     }
-    .back-home {
-      background-color: #ff7043;
-      color: white;
-      margin-top: 50px;
+    .home-btn {
+      background-color: #f44336;
+      color: #fff;
     }
   </style>
 </head>
 <body>
 
-  <h1>Quiz Bíblico</h1>
+  <div class="quiz-container">
+    <h1>Quiz Bíblico</h1>
+    <div id="question" class="question"></div>
+    <div id="alternatives" class="alternatives"></div>
 
-  <div class="question" id="question"></div>
-  <div class="alternatives" id="alternatives"></div>
-
-  <button class="next-button" id="nextBtn" onclick="proximaPergunta()">Próxima Pergunta</button>
-  <button class="start-next-phase" id="nextPhaseBtn" onclick="iniciarProximaFase()">Próxima Fase</button>
-  <button class="back-home" onclick="voltarInicio()">Voltar ao Início</button>
+    <button class="next-phase" id="nextPhaseBtn" onclick="iniciarProximaFase()">Próxima Fase</button>
+    <button class="restart-btn" id="restartBtn" onclick="reiniciar()">Fazer Novamente</button>
+    <button class="home-btn" onclick="voltarInicio()">Voltar ao Início</button>
+  </div>
 
   <script>
     const perguntas = [
@@ -75,7 +83,7 @@
       { fase: 1, pergunta: "Quem abriu o mar?", alternativas: ["Moisés", "Abraão", "Jesus", "Josué"], correta: 0 },
       { fase: 1, pergunta: "Qual o primeiro livro da Bíblia?", alternativas: ["Gênesis", "Êxodo", "Salmos", "Mateus"], correta: 0 },
       { fase: 1, pergunta: "Quantos discípulos Jesus teve?", alternativas: ["12", "7", "70", "10"], correta: 0 },
-
+      
       // Fase 2
       { fase: 2, pergunta: "Quem traiu Jesus?", alternativas: ["Pedro", "Tiago", "Judas", "João"], correta: 2 },
       { fase: 2, pergunta: "Quem escreveu Apocalipse?", alternativas: ["João", "Paulo", "Pedro", "Lucas"], correta: 0 },
@@ -83,66 +91,67 @@
       { fase: 2, pergunta: "Quem foi mãe de Jesus?", alternativas: ["Maria", "Marta", "Sara", "Ana"], correta: 0 }
     ];
 
-    let faseAtual = parseInt(localStorage.getItem('faseAtual')) || 1;
-    let perguntaIndex = parseInt(localStorage.getItem('perguntaIndex')) || 0;
-    let perguntasDaFase = [];
+    let faseAtual = 1;
+    let perguntaIndex = 0;
 
-    function carregarPerguntasDaFase() {
-      perguntasDaFase = perguntas.filter(p => p.fase === faseAtual);
+    function getPerguntasFase(fase) {
+      return perguntas.filter(p => p.fase === fase);
     }
 
     function mostrarPergunta() {
-      carregarPerguntasDaFase();
+      const perguntasFase = getPerguntasFase(faseAtual);
 
-      if (perguntaIndex >= perguntasDaFase.length) {
+      if (perguntaIndex >= perguntasFase.length) {
         document.getElementById("question").innerText = `Fase ${faseAtual} concluída!`;
         document.getElementById("alternatives").innerHTML = "";
-        document.getElementById("nextBtn").style.display = "none";
         document.getElementById("nextPhaseBtn").style.display = "inline-block";
+        document.getElementById("restartBtn").style.display = "inline-block";
         return;
       }
 
-      const pergunta = perguntasDaFase[perguntaIndex];
+      const pergunta = perguntasFase[perguntaIndex];
       document.getElementById("question").innerText = pergunta.pergunta;
-      document.getElementById("alternatives").innerHTML = "";
 
+      const altDiv = document.getElementById("alternatives");
+      altDiv.innerHTML = "";
       pergunta.alternativas.forEach((alt, i) => {
         const btn = document.createElement("button");
         btn.innerText = alt;
-        btn.onclick = () => verificarResposta(i, pergunta.correta, btn);
-        document.getElementById("alternatives").appendChild(btn);
+        btn.onclick = () => verificarResposta(i, pergunta.correta);
+        altDiv.appendChild(btn);
       });
 
-      document.getElementById("nextBtn").style.display = "none";
       document.getElementById("nextPhaseBtn").style.display = "none";
+      document.getElementById("restartBtn").style.display = "none";
     }
 
-    function verificarResposta(escolha, correta, botao) {
+    function verificarResposta(escolhida, correta) {
       const botoes = document.querySelectorAll("#alternatives button");
       botoes.forEach((btn, i) => {
         btn.disabled = true;
         btn.style.backgroundColor = i === correta ? "#4caf50" : "#e57373";
       });
 
-      document.getElementById("nextBtn").style.display = "inline-block";
-    }
-
-    function proximaPergunta() {
-      perguntaIndex++;
-      localStorage.setItem("perguntaIndex", perguntaIndex);
-      mostrarPergunta();
+      setTimeout(() => {
+        perguntaIndex++;
+        mostrarPergunta();
+      }, 1000);
     }
 
     function iniciarProximaFase() {
       faseAtual++;
       perguntaIndex = 0;
-      localStorage.setItem("faseAtual", faseAtual);
-      localStorage.setItem("perguntaIndex", perguntaIndex);
+      mostrarPergunta();
+    }
+
+    function reiniciar() {
+      faseAtual = 1;
+      perguntaIndex = 0;
       mostrarPergunta();
     }
 
     function voltarInicio() {
-      window.location.href = "index.html"; // Altere aqui se o nome da sua página for diferente
+      window.location.href = "../index.html"; // Ajuste o caminho se necessário
     }
 
     mostrarPergunta();
