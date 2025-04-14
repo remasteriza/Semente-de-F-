@@ -75,7 +75,7 @@
     <!-- Fase 2 -->
     <div id="fase-2" class="fase hidden">
       <h2>Fase 2</h2>
-      <div id="pergunta-2" class="pergunta">
+      <div id="pergunta-2" class="pergunta hidden">
         <p class="question">Quem foi o rei de Israel conhecido por sua sabedoria?</p>
         <button class="answer-button" onclick="verificarResposta('fase-2', 2, 'A')">Davi</button>
         <button class="answer-button" onclick="verificarResposta('fase-2', 2, 'B')">Salomão</button>
@@ -85,6 +85,9 @@
       <button class="next-phase-button hidden" id="next-phase-2" onclick="mudarParaProximaPergunta(3, 'fase-2')">Próxima Pergunta</button>
     </div>
   </div>
+
+  <!-- Botão para voltar ao início -->
+  <button class="next-phase-button" onclick="window.location.href='index.html'">Voltar ao Início</button>
 
   <script>
     let respostasCorretas = {
@@ -99,6 +102,10 @@
       const respostaCorreta = respostasCorretas[fase][pergunta - 1];
       const botoes = document.querySelectorAll(`#${fase} #pergunta-${pergunta} .answer-button`);
       
+      // Desabilitar todos os botões de resposta
+      botoes.forEach(button => button.disabled = true);
+
+      // Verificar a resposta e mudar a cor do botão
       if (resposta === respostaCorreta) {
         botoes.forEach(button => {
           if (button.innerText === botoes[0].innerText) {
@@ -113,21 +120,27 @@
         });
       }
 
+      // Exibir o botão para a próxima pergunta
       document.getElementById(`next-phase-${fase}`).classList.remove('hidden');
     }
 
     function mudarParaProximaPergunta(nextPergunta, fase) {
-      perguntaAtual++;
-      const pergunta = document.getElementById(`${fase}-pergunta-${perguntaAtual - 1}`);
+      // Esconde a pergunta atual
+      const pergunta = document.getElementById(`${fase}-pergunta-${perguntaAtual}`);
       pergunta.classList.add('hidden');
-      if (document.getElementById(`${fase}-pergunta-${perguntaAtual}`)) {
-        const proximaPergunta = document.getElementById(`${fase}-pergunta-${perguntaAtual}`);
+
+      // Se houver mais perguntas para mostrar, mostre a próxima
+      if (document.getElementById(`${fase}-pergunta-${nextPergunta}`)) {
+        const proximaPergunta = document.getElementById(`${fase}-pergunta-${nextPergunta}`);
         proximaPergunta.classList.remove('hidden');
+        perguntaAtual = nextPergunta;
       } else {
+        // Se não houver mais perguntas, vá para a próxima fase
         document.getElementById(`next-phase-${fase}`).classList.add('hidden');
-        if (faseAtual < 2) {
+        if (faseAtual < 2) { // Supondo que você tenha 2 fases, altere conforme necessário
           faseAtual++;
           document.getElementById(`fase-${faseAtual}`).classList.remove('hidden');
+          perguntaAtual = 1; // Reinicia as perguntas para a próxima fase
         }
       }
     }
