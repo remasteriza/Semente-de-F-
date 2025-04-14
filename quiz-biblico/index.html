@@ -14,32 +14,26 @@
     }
     .question {
       font-size: 1.5em;
-      margin: 20px 0;
+      margin-top: 30px;
+    }
+    .alternatives {
+      margin-top: 20px;
     }
     .answer-button {
-      background-color: #4CAF50;
+      background-color: #2196F3;
       color: white;
-      padding: 10px 20px;
-      margin: 10px;
+      padding: 15px 30px;
+      margin-top: 10px;
       border: none;
       border-radius: 5px;
+      font-size: 1.2em;
       cursor: pointer;
-      font-size: 1.1em;
     }
     .answer-button:hover {
-      background-color: #45a049;
-    }
-    .answer-button.correct {
-      background-color: #4CAF50;
-    }
-    .answer-button.incorrect {
-      background-color: #f44336;
-    }
-    .hidden {
-      display: none;
+      background-color: #0b7dda;
     }
     .next-phase-button {
-      background-color: #2196F3;
+      background-color: #4CAF50;
       color: white;
       padding: 15px 30px;
       margin-top: 30px;
@@ -47,12 +41,23 @@
       border-radius: 5px;
       font-size: 1.2em;
       cursor: pointer;
+      display: none;
     }
     .next-phase-button:hover {
-      background-color: #0b7dda;
+      background-color: #45a049;
     }
-    .start-options {
-      margin-top: 30px;
+    .back-home-button {
+      background-color: #FF5722;
+      color: white;
+      padding: 15px 30px;
+      margin-top: 50px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1.2em;
+      cursor: pointer;
+    }
+    .back-home-button:hover {
+      background-color: #f44336;
     }
   </style>
 </head>
@@ -61,130 +66,100 @@
   <h1>Quiz Bíblico</h1>
 
   <div id="quiz-container">
-    <!-- Opções ao carregar a página -->
-    <div id="start-options" class="start-options">
-      <button class="next-phase-button" onclick="reiniciarQuiz()">Começar Novamente</button>
-      <button class="next-phase-button" onclick="continuarDeOndeParou()">Continuar de Onde Parou</button>
+    <div id="question-container">
+      <!-- Pergunta será inserida aqui -->
     </div>
 
-    <!-- Fase 1 -->
-    <div id="fase-1" class="fase hidden">
-      <h2>Fase 1</h2>
-      <div id="pergunta-1" class="pergunta hidden">
-        <p class="question">Qual é o primeiro livro da Bíblia?</p>
-        <button class="answer-button" onclick="verificarResposta('fase-1', 1, 'A')">Gênesis</button>
-        <button class="answer-button" onclick="verificarResposta('fase-1', 1, 'B')">Êxodo</button>
-        <button class="answer-button" onclick="verificarResposta('fase-1', 1, 'C')">Levítico</button>
-        <button class="answer-button" onclick="verificarResposta('fase-1', 1, 'D')">Números</button>
-      </div>
-      <!-- Botão para próxima pergunta -->
-      <button class="next-phase-button hidden" id="next-phase-1" onclick="mudarParaProximaPergunta(2, 'fase-1')">Próxima Pergunta</button>
+    <div id="alternatives-container">
+      <!-- Alternativas serão inseridas aqui -->
     </div>
 
-    <!-- Fase 2 -->
-    <div id="fase-2" class="fase hidden">
-      <h2>Fase 2</h2>
-      <div id="pergunta-2" class="pergunta hidden">
-        <p class="question">Quem foi o rei de Israel conhecido por sua sabedoria?</p>
-        <button class="answer-button" onclick="verificarResposta('fase-2', 2, 'A')">Davi</button>
-        <button class="answer-button" onclick="verificarResposta('fase-2', 2, 'B')">Salomão</button>
-        <button class="answer-button" onclick="verificarResposta('fase-2', 2, 'C')">Saul</button>
-        <button class="answer-button" onclick="verificarResposta('fase-2', 2, 'D')">Ezequias</button>
-      </div>
-      <button class="next-phase-button hidden" id="next-phase-2" onclick="mudarParaProximaPergunta(3, 'fase-2')">Próxima Pergunta</button>
+    <div id="next-phase-container" style="display: none;">
+      <button class="next-phase-button" onclick="irParaProximaFase()">Próxima Fase</button>
     </div>
+
+    <!-- Botão de Voltar para o Início -->
+    <button class="back-home-button" onclick="voltarParaInicio()">Voltar ao Início</button>
   </div>
 
   <script>
-    const respostasCorretas = {
-      'fase-1': ['A'],
-      'fase-2': ['B'],
-    };
+    // Perguntas do quiz (simulação de várias fases e perguntas)
+    const perguntas = [
+      { fase: 1, pergunta: "Quem foi o primeiro homem?", alternativas: ["Adão", "Moisés", "Noé", "Abraão"], correta: 0 },
+      { fase: 1, pergunta: "Quem foi o irmão de Moisés?", alternativas: ["Arão", "Davi", "Samuel", "Elias"], correta: 0 },
+      { fase: 2, pergunta: "Quem traiu Jesus?", alternativas: ["Pedro", "Tiago", "Judas", "João"], correta: 2 },
+      { fase: 2, pergunta: "Quantos livros tem o Novo Testamento?", alternativas: ["27", "39", "66", "12"], correta: 0 },
+      { fase: 3, pergunta: "Quem foi o rei de Israel após Saul?", alternativas: ["Davi", "Salomão", "Josias", "Ezequias"], correta: 0 },
+      { fase: 3, pergunta: "Quem escreveu o livro de Apocalipse?", alternativas: ["João", "Pedro", "Paulo", "Lucas"], correta: 0 }
+    ];
 
-    let faseAtual = 1;
-    let perguntaAtual = 1;
+    let faseAtual = localStorage.getItem('faseAtual') || 1;
+    let perguntaAtual = localStorage.getItem('perguntaAtual') || 0;
+
+    // Função para exibir a pergunta e alternativas
+    function mostrarPergunta() {
+      const pergunta = perguntas[perguntaAtual];
+
+      // Mostrar pergunta
+      const questionContainer = document.getElementById('question-container');
+      questionContainer.innerHTML = `<div class="question">${pergunta.pergunta}</div>`;
+
+      // Mostrar alternativas
+      const alternativesContainer = document.getElementById('alternatives-container');
+      alternativesContainer.innerHTML = '';
+      pergunta.alternativas.forEach((alternativa, index) => {
+        const button = document.createElement('button');
+        button.classList.add('answer-button');
+        button.textContent = alternativa;
+        button.onclick = () => verificarResposta(index);
+        alternativesContainer.appendChild(button);
+      });
+    }
 
     // Função para verificar se a resposta está correta
-    function verificarResposta(fase, pergunta, resposta) {
-      const respostaCorreta = respostasCorretas[fase][pergunta - 1];
-      const botoes = document.querySelectorAll(`#${fase} #pergunta-${pergunta} .answer-button`);
-      
-      // Desabilitar todos os botões de resposta
-      botoes.forEach(button => button.disabled = true);
-
-      // Verificar a resposta e mudar a cor do botão
-      if (resposta === respostaCorreta) {
-        botoes.forEach(button => {
-          if (button.innerText === botoes[0].innerText) {
-            button.classList.add('correct');
-          }
-        });
+    function verificarResposta(indice) {
+      const pergunta = perguntas[perguntaAtual];
+      if (indice === pergunta.correta) {
+        alert('Resposta correta!');
       } else {
-        botoes.forEach(button => {
-          if (button.innerText === botoes[0].innerText) {
-            button.classList.add('incorrect');
-          }
-        });
+        alert('Resposta errada!');
       }
+      salvarProgresso();
+    }
 
-      // Salvar o progresso no localStorage
+    // Função para salvar o progresso
+    function salvarProgresso() {
       localStorage.setItem('faseAtual', faseAtual);
-      localStorage.setItem('perguntaAtual', pergunta);
+      localStorage.setItem('perguntaAtual', perguntaAtual + 1);
 
-      // Exibir o botão para a próxima pergunta
-      document.getElementById(`next-phase-${fase}`).classList.remove('hidden');
-    }
-
-    // Função para mudar para a próxima pergunta
-    function mudarParaProximaPergunta(nextPergunta, fase) {
-      // Esconde a pergunta atual
-      const pergunta = document.getElementById(`${fase}-pergunta-${perguntaAtual}`);
-      pergunta.classList.add('hidden');
-
-      // Se houver mais perguntas para mostrar, mostre a próxima
-      if (document.getElementById(`${fase}-pergunta-${nextPergunta}`)) {
-        const proximaPergunta = document.getElementById(`${fase}-pergunta-${nextPergunta}`);
-        proximaPergunta.classList.remove('hidden');
-        perguntaAtual = nextPergunta;
+      // Se a pergunta acabou, avançar para a próxima fase
+      if (perguntaAtual + 1 >= perguntas.filter(p => p.fase == faseAtual).length) {
+        faseAtual++;
+        perguntaAtual = 0; // Reiniciar as perguntas para a nova fase
+        localStorage.setItem('faseAtual', faseAtual);
+        localStorage.setItem('perguntaAtual', perguntaAtual);
+        document.getElementById('next-phase-container').style.display = 'block';
       } else {
-        // Se não houver mais perguntas, vá para a próxima fase
-        document.getElementById(`next-phase-${fase}`).classList.add('hidden');
-        if (faseAtual < 2) { // Supondo que você tenha 2 fases, altere conforme necessário
-          faseAtual++;
-          document.getElementById(`fase-${faseAtual}`).classList.remove('hidden');
-          perguntaAtual = 1; // Reinicia as perguntas para a próxima fase
-        }
+        perguntaAtual++;
+        localStorage.setItem('perguntaAtual', perguntaAtual);
+        mostrarPergunta();
       }
     }
 
-    // Função para continuar de onde parou
-    function continuarDeOndeParou() {
-      const faseSalva = localStorage.getItem('faseAtual');
-      const perguntaSalva = localStorage.getItem('perguntaAtual');
-
-      if (faseSalva && perguntaSalva) {
-        faseAtual = parseInt(faseSalva);
-        perguntaAtual = parseInt(perguntaSalva);
-
-        // Esconde as opções de reiniciar e continua o quiz
-        document.getElementById('start-options').classList.add('hidden');
-        document.getElementById(`fase-${faseAtual}`).classList.remove('hidden');
-        document.getElementById(`${faseAtual}-pergunta-${perguntaAtual}`).classList.remove('hidden');
-      } else {
-        alert("Você ainda não iniciou o quiz. Por favor, comece a partir de uma fase.");
-      }
+    // Função para ir para a próxima fase
+    function irParaProximaFase() {
+      document.getElementById('next-phase-container').style.display = 'none';
+      mostrarPergunta();
     }
 
-    // Função para reiniciar o quiz
-    function reiniciarQuiz() {
-      localStorage.removeItem('faseAtual');
-      localStorage.removeItem('perguntaAtual');
-      faseAtual = 1;
-      perguntaAtual = 1;
-      document.getElementById('start-options').classList.add('hidden');
-      document.getElementById('fase-1').classList.remove('hidden');
-      document.getElementById('pergunta-1').classList.remove('hidden');
+    // Função para voltar ao início do site
+    function voltarParaInicio() {
+      window.location.href = "index.html"; // Altere para o caminho correto do seu arquivo de página inicial
     }
+
+    // Exibir a primeira pergunta ao carregar a página
+    mostrarPergunta();
   </script>
+
 </body>
 </html>
