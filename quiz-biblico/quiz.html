@@ -152,8 +152,13 @@
       const question = questions[currentQuestionIndex];
       document.getElementById("question").textContent = question.question;
 
+      // Embaralhar as respostas
       const shuffledAnswers = shuffleAnswers([...question.answers]);
 
+      // Achar a posição da resposta correta no array embaralhado
+      const correctAnswerIndex = shuffledAnswers.indexOf(question.answers[question.correctAnswer]);
+
+      // Atualizar o ID das alternativas com o índice correto
       const answersDiv = document.getElementById('answers');
       answersDiv.innerHTML = ''; // Limpar respostas anteriores
 
@@ -162,7 +167,7 @@
         answerDiv.classList.add('answer');
         answerDiv.textContent = answer;
         answerDiv.onclick = function() {
-          checkAnswer(index, shuffledAnswers.indexOf(answer));
+          checkAnswer(index, correctAnswerIndex);
         };
         answersDiv.appendChild(answerDiv);
       });
@@ -183,7 +188,6 @@
     function checkAnswer(selectedAnswerIndex, correctAnswerIndex) {
       const answersDiv = document.getElementById('answers');
       const selectedAnswer = answersDiv.children[selectedAnswerIndex];
-      const correctAnswer = answersDiv.children[correctAnswerIndex];
 
       // Verifica se a resposta está correta
       if (selectedAnswerIndex === correctAnswerIndex) {
@@ -191,7 +195,7 @@
         score++;
       } else {
         selectedAnswer.classList.add('incorrect');
-        correctAnswer.classList.add('correct');
+        answersDiv.children[correctAnswerIndex].classList.add('correct');
       }
 
       // Exibir o botão de próxima pergunta
