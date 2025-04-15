@@ -173,17 +173,30 @@
     const fase = quizData[faseAtual];
 
     if (perguntaAtual >= fase.perguntas.length) {
+  if (faseAtual >= quizData.length - 1) {
+    // Final do quiz
+    document.getElementById("quiz-container").innerHTML = `
+      <h2>Parabéns! Você finalizou todas as fases.</h2>
+      <p>Sua pontuação final: ${score}</p>
+      <button onclick="location.reload()">Refazer Quiz</button>
+    `;
+    return;
+  } else {
+    // Exibir botão para próxima fase
+    document.getElementById("question").textContent = `🎉 Parabéns! Você concluiu a ${fase.fase}.`;
+    document.getElementById("answers").innerHTML = `<p>Preparado para a próxima fase?</p>`;
+    document.getElementById("next-btn").textContent = "Bora para a próxima fase";
+    document.getElementById("next-btn").style.display = "block";
+    document.getElementById("next-btn").onclick = () => {
       faseAtual++;
       perguntaAtual = 0;
-
-      if (faseAtual >= quizData.length) {
-        document.getElementById("quiz-container").innerHTML = `<h2>Parabéns! Você finalizou todas as fases.</h2><p>Sua pontuação final: ${score}</p>`;
-        return;
-      } else {
-        alert(`Parabéns! Você concluiu a ${fase.fase}. Agora vamos para a ${quizData[faseAtual].fase}!`);
-      }
-    }
-
+      document.getElementById("next-btn").textContent = "Próxima Pergunta";
+      document.getElementById("next-btn").onclick = nextQuestion;
+      loadQuestion();
+    };
+    return;
+  }
+}
     loadQuestion();
   }
 
