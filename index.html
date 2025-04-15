@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Site Cristão - Página Inicial</title>
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet" />
   <style>
     body {
       margin: 0;
       font-family: 'Quicksand', sans-serif;
-      background-color: #f0f0f0; /* Removido a imagem de fundo */
+      background-color: #f0f0f0;
       color: #2f4f4f;
     }
 
@@ -47,12 +46,16 @@
       margin-bottom: 20px;
     }
 
-    .destaques {
-      margin-bottom: 40px;
+    .destaques p {
+      font-size: 1.8em;
+      text-align: center;
+      font-weight: bold;
+      color: #5b8f85;
     }
 
     .recursos {
-      margin-top: 40px;
+      margin-top: 60px;
+      text-align: center;
     }
 
     .btn {
@@ -78,14 +81,6 @@
       color: #fff;
       margin-top: 40px;
     }
-
-    /* Estilos específicos para o versículo do dia */
-    .destaques p {
-      font-size: 1.8em;
-      text-align: center;
-      font-weight: bold;
-      color: #5b8f85;
-    }
   </style>
 </head>
 <body>
@@ -93,7 +88,6 @@
   <header>
     <div class="logo">
       <h1>Semente de Fé 🌱!</h1>
-      <p>Encontre estudos, devocionais e recursos cristãos para o seu crescimento espiritual.</p>
     </div>
     <nav>
       <a href="index.html" class="active">Início</a>
@@ -107,12 +101,11 @@
   <main>
     <section class="destaques">
       <h2>Versículo do Dia</h2>
-      <p><strong>Filipenses 4:13</strong> - "Posso todas as coisas naquele que me fortalece."</p>
+      <p id="versiculo-dia"></p>
     </section>
 
     <section class="recursos">
       <h2>Recursos Cristãos</h2>
-      <p>Acesse nossos devocionais, estudos e outros conteúdos para fortalecer sua fé.</p>
       <a href="devocionais.html" class="btn">Veja Devocionais</a>
     </section>
   </main>
@@ -121,6 +114,46 @@
     <p>&copy; 2025 Site Cristão</p>
     <p><a href="contato.html">Contato</a> | <a href="sobre.html">Sobre</a></p>
   </footer>
+
+  <script>
+    const versiculos = [
+      "Filipenses 4:13 - Posso todas as coisas naquele que me fortalece.",
+      "Salmos 23:1 - O Senhor é o meu pastor; nada me faltará.",
+      "João 3:16 - Porque Deus amou o mundo de tal maneira que deu o seu Filho unigênito.",
+      "Provérbios 3:5 - Confia no Senhor de todo o teu coração e não te estribes no teu próprio entendimento.",
+      "Isaías 41:10 - Não temas, porque eu sou contigo; não te assombres, porque eu sou o teu Deus.",
+      "Romanos 8:28 - Todas as coisas cooperam para o bem daqueles que amam a Deus.",
+      "Mateus 6:33 - Buscai primeiro o reino de Deus e a sua justiça.",
+      "Josué 1:9 - Sê forte e corajoso! Não temas, nem te espantes.",
+      "Salmos 119:105 - Lâmpada para os meus pés é a tua palavra, e luz para o meu caminho.",
+      "2 Coríntios 5:7 - Porque vivemos por fé, e não pelo que vemos.",
+      "Tiago 1:5 - Se algum de vós tem falta de sabedoria, peça-a a Deus.",
+      "Hebreus 11:1 - A fé é a certeza daquilo que esperamos e a prova das coisas que não vemos.",
+      "1 Coríntios 13:4 - O amor é paciente, o amor é bondoso.",
+      "Isaías 40:31 - Os que esperam no Senhor renovarão as suas forças.",
+      "Salmos 46:1 - Deus é o nosso refúgio e fortaleza, socorro bem presente na angústia.",
+      "Romanos 12:2 - Não se conformem com este mundo, mas transformem-se pela renovação da mente.",
+      "1 Pedro 5:7 - Lancem sobre ele toda a sua ansiedade, porque ele tem cuidado de vocês.",
+      "Salmos 37:5 - Entrega o teu caminho ao Senhor; confia nele, e o mais ele fará.",
+      "Gálatas 5:22 - Mas o fruto do Espírito é amor, alegria, paz, paciência...",
+      "Jeremias 29:11 - Porque eu bem sei os pensamentos que tenho a vosso respeito, diz o Senhor.",
+      "Mateus 11:28 - Vinde a mim, todos os que estais cansados e oprimidos, e eu vos aliviarei.",
+      "Romanos 10:9 - Se com a tua boca confessares ao Senhor Jesus, serás salvo.",
+      "Salmos 121:1-2 - Elevo os meus olhos para os montes: de onde me vem o socorro?",
+      "2 Timóteo 1:7 - Deus não nos deu espírito de temor, mas de poder, amor e moderação.",
+      "Efésios 6:11 - Revesti-vos de toda a armadura de Deus.",
+      "Colossenses 3:23 - Tudo o que fizerem, façam de todo o coração, como para o Senhor.",
+      "João 14:6 - Eu sou o caminho, a verdade e a vida.",
+      "Tiago 4:7 - Sujeitai-vos, pois, a Deus. Resistam ao diabo, e ele fugirá de vocês.",
+      "Salmos 100:4 - Entrai por suas portas com ações de graças.",
+      "Apocalipse 21:4 - Deus enxugará dos seus olhos toda lágrima.",
+      "1 João 4:19 - Nós amamos porque ele nos amou primeiro."
+    ];
+
+    const hoje = new Date().getDate();
+    const versiculoDia = versiculos[(hoje - 1) % versiculos.length];
+    document.getElementById("versiculo-dia").textContent = versiculoDia;
+  </script>
 
 </body>
 </html>
