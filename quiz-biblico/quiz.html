@@ -228,7 +228,7 @@
         const answerDiv = document.createElement('div');
         answerDiv.classList.add('answer');
         answerDiv.textContent = answer;
-        answerDiv.setAttribute('onclick', `checkAnswer(${index}, shuffledAnswers)`);
+        answerDiv.setAttribute('onclick', `checkAnswer(${index}, shuffledAnswers, ${question.correctAnswer})`);
         answersDiv.appendChild(answerDiv);
       });
 
@@ -246,12 +246,10 @@
     }
 
     // Função para checar a resposta
-    function checkAnswer(index, shuffledAnswers) {
-      const phaseQuestions = getPhaseQuestions();
-      const question = phaseQuestions[currentQuestionIndex];
+    function checkAnswer(index, shuffledAnswers, correctAnswerIndex) {
       const selectedAnswer = document.querySelectorAll('.answer')[index];
-      const correctAnswerIndex = question.answers.indexOf(shuffledAnswers[0]); // Resposta correta
-
+      
+      // Verifica se a resposta está correta
       if (index === correctAnswerIndex) {
         selectedAnswer.classList.add('correct');
         score++;
