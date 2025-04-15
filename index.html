@@ -106,7 +106,7 @@
 
     <section class="recursos">
       <h2>Recursos Cristãos</h2>
-      <a href="devocionais.html" class="btn">Veja Devocionais</a>
+      <a href="devocionais.html" class="btn">Veja Devocionais Do Dia</a>
     </section>
   </main>
 
@@ -115,49 +115,55 @@
     <p><a href="contato.html">Contato</a> | <a href="sobre.html">Sobre</a></p>
   </footer>
 
-  <script>
-    const versiculos = [
-      "Filipenses 4:13 -
-       Posso todas as coisas naquele que me fortalece.",
-      "Salmos 23:1 -
-       O Senhor é o meu pastor; nada me faltará.",
-      "João 3:16 -
-       Porque Deus amou o mundo de tal maneira que deu o seu Filho unigênito.",
-      "Provérbios 3:5 - 
-      Confia no Senhor de todo o teu coração e não te estribes no teu próprio entendimento.",
-      "Isaías 41:10 - Não temas, porque eu sou contigo; não te assombres, porque eu sou o teu Deus.",
-      "Romanos 8:28 - Todas as coisas cooperam para o bem daqueles que amam a Deus.",
-      "Mateus 6:33 - Buscai primeiro o reino de Deus e a sua justiça.",
-      "Josué 1:9 - Sê forte e corajoso! Não temas, nem te espantes.",
-      "Salmos 119:105 - Lâmpada para os meus pés é a tua palavra, e luz para o meu caminho.",
-      "2 Coríntios 5:7 - Porque vivemos por fé, e não pelo que vemos.",
-      "Tiago 1:5 - Se algum de vós tem falta de sabedoria, peça-a a Deus.",
-      "Hebreus 11:1 - A fé é a certeza daquilo que esperamos e a prova das coisas que não vemos.",
-      "1 Coríntios 13:4 - O amor é paciente, o amor é bondoso.",
-      "Isaías 40:31 - Os que esperam no Senhor renovarão as suas forças.",
-      "Salmos 46:1 - Deus é o nosso refúgio e fortaleza, socorro bem presente na angústia.",
-      "Romanos 12:2 - Não se conformem com este mundo, mas transformem-se pela renovação da mente.",
-      "1 Pedro 5:7 - Lancem sobre ele toda a sua ansiedade, porque ele tem cuidado de vocês.",
-      "Salmos 37:5 - Entrega o teu caminho ao Senhor; confia nele, e o mais ele fará.",
-      "Gálatas 5:22 - Mas o fruto do Espírito é amor, alegria, paz, paciência...",
-      "Jeremias 29:11 - Porque eu bem sei os pensamentos que tenho a vosso respeito, diz o Senhor.",
-      "Mateus 11:28 - Vinde a mim, todos os que estais cansados e oprimidos, e eu vos aliviarei.",
-      "Romanos 10:9 - Se com a tua boca confessares ao Senhor Jesus, serás salvo.",
-      "Salmos 121:1-2 - Elevo os meus olhos para os montes: de onde me vem o socorro?",
-      "2 Timóteo 1:7 - Deus não nos deu espírito de temor, mas de poder, amor e moderação.",
-      "Efésios 6:11 - Revesti-vos de toda a armadura de Deus.",
-      "Colossenses 3:23 - Tudo o que fizerem, façam de todo o coração, como para o Senhor.",
-      "João 14:6 - Eu sou o caminho, a verdade e a vida.",
-      "Tiago 4:7 - Sujeitai-vos, pois, a Deus. Resistam ao diabo, e ele fugirá de vocês.",
-      "Salmos 100:4 - Entrai por suas portas com ações de graças.",
-      "Apocalipse 21:4 - Deus enxugará dos seus olhos toda lágrima.",
-      "1 João 4:19 - Nós amamos porque ele nos amou primeiro."
-    ];
+  <!-- Substitua a parte do versículo no HTML por esta -->
+<section class="destaques">
+  <h2>Versículo do Dia</h2>
+  <p id="titulo-versiculo" style="font-size: 1.4em; color: #5b8f85;"></p>
+  <p id="texto-versiculo" style="font-size: 1.8em; font-weight: bold;"></p>
+</section>
 
-    const hoje = new Date().getDate();
-    const versiculoDia = versiculos[(hoje - 1) % versiculos.length];
-    document.getElementById("versiculo-dia").textContent = versiculoDia;
-  </script>
+<!-- Substitua ou adicione este script no final do body -->
+<script>
+  const versiculos = [
+    { titulo: "Filipenses 4:13", texto: "Posso todas as coisas naquele que me fortalece." },
+    { titulo: "Salmos 23:1", texto: "O Senhor é o meu pastor; nada me faltará." },
+    { titulo: "João 3:16", texto: "Porque Deus amou o mundo de tal maneira que deu o seu Filho unigênito." },
+    { titulo: "Provérbios 3:5", texto: "Confia no Senhor de todo o teu coração e não te estribes no teu próprio entendimento." },
+    { titulo: "Isaías 41:10", texto: "Não temas, porque eu sou contigo; não te assombres, porque eu sou o teu Deus." },
+    { titulo: "Romanos 8:28", texto: "Todas as coisas cooperam para o bem daqueles que amam a Deus." },
+    { titulo: "Mateus 6:33", texto: "Buscai primeiro o reino de Deus e a sua justiça." },
+    { titulo: "Josué 1:9", texto: "Sê forte e corajoso! Não temas, nem te espantes." },
+    { titulo: "Salmos 119:105", texto: "Lâmpada para os meus pés é a tua palavra, e luz para o meu caminho." },
+    { titulo: "2 Coríntios 5:7", texto: "Porque vivemos por fé, e não pelo que vemos." },
+    { titulo: "Tiago 1:5", texto: "Se algum de vós tem falta de sabedoria, peça-a a Deus." },
+    { titulo: "Hebreus 11:1", texto: "A fé é a certeza daquilo que esperamos e a prova das coisas que não vemos." },
+    { titulo: "1 Coríntios 13:4", texto: "O amor é paciente, o amor é bondoso." },
+    { titulo: "Isaías 40:31", texto: "Os que esperam no Senhor renovarão as suas forças." },
+    { titulo: "Salmos 46:1", texto: "Deus é o nosso refúgio e fortaleza, socorro bem presente na angústia." },
+    { titulo: "Romanos 12:2", texto: "Não se conformem com este mundo, mas transformem-se pela renovação da mente." },
+    { titulo: "1 Pedro 5:7", texto: "Lancem sobre ele toda a sua ansiedade, porque ele tem cuidado de vocês." },
+    { titulo: "Salmos 37:5", texto: "Entrega o teu caminho ao Senhor; confia nele, e o mais ele fará." },
+    { titulo: "Gálatas 5:22", texto: "Mas o fruto do Espírito é amor, alegria, paz, paciência..." },
+    { titulo: "Jeremias 29:11", texto: "Porque eu bem sei os pensamentos que tenho a vosso respeito, diz o Senhor." },
+    { titulo: "Mateus 11:28", texto: "Vinde a mim, todos os que estais cansados e oprimidos, e eu vos aliviarei." },
+    { titulo: "Romanos 10:9", texto: "Se com a tua boca confessares ao Senhor Jesus, serás salvo." },
+    { titulo: "Salmos 121:1-2", texto: "Elevo os meus olhos para os montes: de onde me vem o socorro?" },
+    { titulo: "2 Timóteo 1:7", texto: "Deus não nos deu espírito de temor, mas de poder, amor e moderação." },
+    { titulo: "Efésios 6:11", texto: "Revesti-vos de toda a armadura de Deus." },
+    { titulo: "Colossenses 3:23", texto: "Tudo o que fizerem, façam de todo o coração, como para o Senhor." },
+    { titulo: "João 14:6", texto: "Eu sou o caminho, a verdade e a vida." },
+    { titulo: "Tiago 4:7", texto: "Sujeitai-vos, pois, a Deus. Resistam ao diabo, e ele fugirá de vocês." },
+    { titulo: "Salmos 100:4", texto: "Entrai por suas portas com ações de graças." },
+    { titulo: "Apocalipse 21:4", texto: "Deus enxugará dos seus olhos toda lágrima." },
+    { titulo: "1 João 4:19", texto: "Nós amamos porque ele nos amou primeiro." }
+  ];
+
+  const hoje = new Date().getDate();
+  const versiculo = versiculos[(hoje - 1) % versiculos.length];
+  document.getElementById("titulo-versiculo").textContent = versiculo.titulo;
+  document.getElementById("texto-versiculo").textContent = `"${versiculo.texto}"`;
+</script>
+
 
 </body>
 </html>
