@@ -4,32 +4,38 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Quiz Bíblico</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f3f0ea url('https://i.imgur.com/6c5v0oc.png') no-repeat center top;
-      background-size: cover;
+      font-family: 'Poppins', sans-serif;
+      background-color: #e8f0fe;
       margin: 0;
       padding: 0;
     }
 
     #quiz-container {
       max-width: 700px;
-      margin: 100px auto;
+      margin: 80px auto;
       padding: 30px;
-      background: #ffffffcc;
+      background: #ffffff;
       border-radius: 16px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
 
     h2 {
       margin-bottom: 20px;
-      color: #3e2c1c;
+      color: #2c3e50;
+    }
+
+    #fase-indicador {
+      font-weight: bold;
+      margin-bottom: 15px;
+      color: #3b7ddd;
     }
 
     .answer {
-      background-color: #f5f5f5;
-      border: 2px solid #ccc;
+      background-color: #f5faff;
+      border: 2px solid #cbd6e2;
       border-radius: 12px;
       padding: 12px;
       margin: 10px 0;
@@ -38,39 +44,44 @@
     }
 
     .answer:hover {
-      background-color: #e0e0e0;
+      background-color: #e0ecf7;
     }
 
     .correct {
-      background-color: #c8e6c9;
-      border-color: #4caf50;
+      background-color: #d4edda;
+      border-color: #28a745;
+      color: #155724;
     }
 
     .incorrect {
-      background-color: #ffcdd2;
-      border-color: #f44336;
+      background-color: #f8d7da;
+      border-color: #dc3545;
+      color: #721c24;
     }
 
     #next-btn {
       display: none;
       margin-top: 20px;
       padding: 12px 24px;
-      background-color: #3e2c1c;
+      background-color: #3b7ddd;
       color: white;
       border: none;
       border-radius: 8px;
       cursor: pointer;
+      font-size: 16px;
     }
 
     #score {
       margin-top: 15px;
       font-weight: bold;
+      color: #2c3e50;
     }
   </style>
 </head>
 <body>
 
 <div id="quiz-container">
+  <div id="fase-indicador"></div>
   <h2 id="question">Carregando pergunta...</h2>
   <div id="answers"></div>
   <button id="next-btn" onclick="nextQuestion()">Próxima Pergunta</button>
@@ -134,8 +145,9 @@
   function loadQuestion() {
     const fase = quizData[faseAtual];
     const pergunta = fase.perguntas[perguntaAtual];
-    document.getElementById("question").textContent = `${fase.fase} - ${pergunta.question}`;
-    
+    document.getElementById("question").textContent = pergunta.question;
+    document.getElementById("fase-indicador").textContent = `${fase.fase} - Pergunta ${perguntaAtual + 1} de ${fase.perguntas.length}`;
+
     const shuffled = shuffleAnswers([...pergunta.answers]);
     currentCorrectIndex = shuffled.indexOf(pergunta.answers[pergunta.correctAnswer]);
 
@@ -154,7 +166,7 @@
 
   function checkAnswer(selectedIndex) {
     const respostas = document.querySelectorAll(".answer");
-    respostas.forEach(btn => btn.onclick = null); // desativa clique duplo
+    respostas.forEach(btn => btn.onclick = null);
 
     if (selectedIndex === currentCorrectIndex) {
       respostas[selectedIndex].classList.add("correct");
@@ -173,30 +185,29 @@
     const fase = quizData[faseAtual];
 
     if (perguntaAtual >= fase.perguntas.length) {
-  if (faseAtual >= quizData.length - 1) {
-    // Final do quiz
-    document.getElementById("quiz-container").innerHTML = `
-      <h2>Parabéns! Você finalizou todas as fases.</h2>
-      <p>Sua pontuação final: ${score}</p>
-      <button onclick="location.reload()">Refazer Quiz</button>
-    `;
-    return;
-  } else {
-    // Exibir botão para próxima fase
-    document.getElementById("question").textContent = `🎉 Parabéns! Você concluiu a ${fase.fase}.`;
-    document.getElementById("answers").innerHTML = `<p>Preparado para a próxima fase?</p>`;
-    document.getElementById("next-btn").textContent = "Bora para a próxima fase";
-    document.getElementById("next-btn").style.display = "block";
-    document.getElementById("next-btn").onclick = () => {
-      faseAtual++;
-      perguntaAtual = 0;
-      document.getElementById("next-btn").textContent = "Próxima Pergunta";
-      document.getElementById("next-btn").onclick = nextQuestion;
-      loadQuestion();
-    };
-    return;
-  }
-}
+      if (faseAtual >= quizData.length - 1) {
+        document.getElementById("quiz-container").innerHTML = `
+          <h2>🎉 Parabéns! Você finalizou todas as fases.</h2>
+          <p>Sua pontuação final: <strong>${score}</strong></p>
+          <button onclick="location.reload()">Refazer Quiz</button>
+        `;
+        return;
+      } else {
+        document.getElementById("question").textContent = `🎊 Parabéns! Você concluiu a ${fase.fase}.`;
+        document.getElementById("fase-indicador").textContent = "";
+        document.getElementById("answers").innerHTML = `<p>Preparado para a próxima fase?</p>`;
+        document.getElementById("next-btn").textContent = "Bora para a próxima fase";
+        document.getElementById("next-btn").style.display = "block";
+        document.getElementById("next-btn").onclick = () => {
+          faseAtual++;
+          perguntaAtual = 0;
+          document.getElementById("next-btn").textContent = "Próxima Pergunta";
+          document.getElementById("next-btn").onclick = nextQuestion;
+          loadQuestion();
+        };
+        return;
+      }
+    }
     loadQuestion();
   }
 
