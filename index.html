@@ -88,6 +88,7 @@
   <header>
     <div class="logo">
       <h1>Semente de Fé 🌱!</h1>
+      <p>Encontre estudos, devocionais e recursos cristãos para o seu crescimento espiritual.</p>
     </div>
     <nav>
       <a href="index.html" class="active">Início</a>
@@ -106,7 +107,8 @@
 
     <section class="recursos">
       <h2>Recursos Cristãos</h2>
-      <a href="devocionais.html" class="btn">Veja Devocionais Do Dia</a>
+      <p>Acesse nossos devocionais, estudos e outros conteúdos para fortalecer sua fé.</p>
+      <a href="devocionais.html" class="btn">Veja Devocionais</a>
     </section>
   </main>
 
@@ -115,16 +117,8 @@
     <p><a href="contato.html">Contato</a> | <a href="sobre.html">Sobre</a></p>
   </footer>
 
-  <!-- Substitua a parte do versículo no HTML por esta -->
-<section class="destaques">
-  <h2>Versículo do Dia</h2>
-  <p id="titulo-versiculo" style="font-size: 1.4em; color: #5b8f85;"></p>
-  <p id="texto-versiculo" style="font-size: 1.8em; font-weight: bold;"></p>
-</section>
-
-<!-- Substitua ou adicione este script no final do body -->
-<script>
-  const versiculos = [
+  <script>
+    const versiculos = [
     { titulo: "Filipenses 4:13", texto: "Posso todas as coisas naquele que me fortalece." },
     { titulo: "Salmos 23:1", texto: "O Senhor é o meu pastor; nada me faltará." },
     { titulo: "João 3:16", texto: "Porque Deus amou o mundo de tal maneira que deu o seu Filho unigênito." },
@@ -157,13 +151,10 @@
     { titulo: "Apocalipse 21:4", texto: "Deus enxugará dos seus olhos toda lágrima." },
     { titulo: "1 João 4:19", texto: "Nós amamos porque ele nos amou primeiro." }
   ];
-
-  const hoje = new Date().getDate();
-  const versiculo = versiculos[(hoje - 1) % versiculos.length];
-  document.getElementById("titulo-versiculo").textContent = versiculo.titulo;
-  document.getElementById("texto-versiculo").textContent = `"${versiculo.texto}"`;
-</script>
-
+    const hoje = new Date().getDate();
+    const versiculoDia = versiculos[(hoje - 1) % versiculos.length];
+    document.getElementById("versiculo-dia").textContent = versiculoDia;
+  </script>
 
 </body>
 </html>
