@@ -1,219 +1,194 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz Bíblico - Semente de Fé</title>
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quiz Bíblico</title>
   <style>
     body {
-      margin: 0;
-      font-family: 'Quicksand', sans-serif;
-      background: url('fundo-celestial.jpg') no-repeat center center fixed;
+      font-family: Arial, sans-serif;
+      background: #f3f0ea url('https://i.imgur.com/6c5v0oc.png') no-repeat center top;
       background-size: cover;
-      color: #2f4f4f;
+      margin: 0;
+      padding: 0;
     }
 
-    header {
-      background-color: rgba(167, 215, 197, 0.95);
-      color: #fff;
-      padding: 20px;
-      text-align: center;
-      border-bottom: 3px solid #5b8f85;
-    }
-
-    main {
-      padding: 40px 20px;
-      background-color: rgba(255, 255, 255, 0.85);
-      max-width: 900px;
-      margin: auto;
+    #quiz-container {
+      max-width: 700px;
+      margin: 100px auto;
+      padding: 30px;
+      background: #ffffffcc;
       border-radius: 16px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
 
-    .question {
-      font-size: 20px;
+    h2 {
       margin-bottom: 20px;
-      font-weight: bold;
-      color: #2f4f4f;
-    }
-
-    .answers {
-      display: flex;
-      flex-direction: column;
+      color: #3e2c1c;
     }
 
     .answer {
-      background-color: #f4f4f4;
+      background-color: #f5f5f5;
+      border: 2px solid #ccc;
+      border-radius: 12px;
       padding: 12px;
-      margin: 8px 0;
-      border-radius: 8px;
+      margin: 10px 0;
       cursor: pointer;
-      transition: background-color 0.3s;
-      border: 1px solid #ccc;
+      transition: all 0.3s ease;
     }
 
     .answer:hover {
-      background-color: #dcdcdc;
+      background-color: #e0e0e0;
     }
 
     .correct {
-      background-color: #4CAF50;
-      color: white;
+      background-color: #c8e6c9;
+      border-color: #4caf50;
     }
 
     .incorrect {
-      background-color: #f44336;
-      color: white;
+      background-color: #ffcdd2;
+      border-color: #f44336;
     }
 
     #next-btn {
       display: none;
-      background-color: #4CAF50;
+      margin-top: 20px;
+      padding: 12px 24px;
+      background-color: #3e2c1c;
       color: white;
-      padding: 12px 20px;
       border: none;
-      border-radius: 5px;
+      border-radius: 8px;
       cursor: pointer;
-      font-size: 16px;
     }
 
-    #next-btn:hover {
-      background-color: #45a049;
+    #score {
+      margin-top: 15px;
+      font-weight: bold;
     }
-
-    footer {
-      text-align: center;
-      padding: 15px;
-      background-color: rgba(167, 215, 197, 0.95);
-      color: #fff;
-      margin-top: 40px;
-    }
-
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>Quiz Bíblico - Semente de Fé</h1>
-  </header>
+<div id="quiz-container">
+  <h2 id="question">Carregando pergunta...</h2>
+  <div id="answers"></div>
+  <button id="next-btn" onclick="nextQuestion()">Próxima Pergunta</button>
+  <div id="score">Pontuação: 0</div>
+</div>
 
-  <main>
-    <div id="quiz-container">
-      <div id="question-container">
-        <div class="question" id="question">Pergunta 1</div>
-        <div class="answers" id="answers">
-          <!-- Alternativas serão preenchidas aqui dinamicamente -->
-        </div>
-      </div>
-      <div id="result"></div>
-      <div id="score">Pontuação: 0</div>
-      <button id="next-btn" onclick="nextQuestion()">Próxima Pergunta</button>
-    </div>
-  </main>
+<script>
+  const quizData = [
+    {
+      fase: "Fase 1",
+      perguntas: [
+        { question: "Quem traiu Jesus?", answers: ["Judas", "Pedro", "João", "Tiago"], correctAnswer: 0 },
+        { question: "Qual é o primeiro livro da Bíblia?", answers: ["Gênesis", "Êxodo", "Levítico", "Deuteronômio"], correctAnswer: 0 },
+        { question: "Quem conduziu os israelitas para fora do Egito?", answers: ["Moisés", "Josué", "Davi", "Abraão"], correctAnswer: 0 }
+      ]
+    },
+    {
+      fase: "Fase 2",
+      perguntas: [
+        { question: "Quem escreveu o livro de Salmos?", answers: ["Davi", "Isaías", "Salomão", "Moisés"], correctAnswer: 0 },
+        { question: "Onde Jesus nasceu?", answers: ["Belém", "Jerusalém", "Nazaré", "Galileia"], correctAnswer: 0 },
+        { question: "Qual discípulo andou sobre as águas?", answers: ["Pedro", "Tiago", "João", "André"], correctAnswer: 0 },
+        { question: "Quantos livros tem o Novo Testamento?", answers: ["27", "39", "66", "12"], correctAnswer: 0 }
+      ]
+    },
+    {
+      fase: "Fase 3",
+      perguntas: [
+        { question: "Quem foi lançado na cova dos leões?", answers: ["Daniel", "José", "Davi", "Paulo"], correctAnswer: 0 },
+        { question: "Quem escreveu Apocalipse?", answers: ["João", "Pedro", "Paulo", "Lucas"], correctAnswer: 0 },
+        { question: "Quem foi o primeiro rei de Israel?", answers: ["Saul", "Davi", "Salomão", "Samuel"], correctAnswer: 0 },
+        { question: "Quem interpretou os sonhos do faraó?", answers: ["José", "Daniel", "Elias", "Moisés"], correctAnswer: 0 }
+      ]
+    },
+    {
+      fase: "Fase 4",
+      perguntas: [
+        { question: "Quantos dias durou o dilúvio?", answers: ["40", "30", "7", "100"], correctAnswer: 0 },
+        { question: "Quem era pai de João Batista?", answers: ["Zacarias", "José", "Abraão", "Pedro"], correctAnswer: 0 },
+        { question: "Quem viu a sarça ardente?", answers: ["Moisés", "Elias", "Abraão", "Isaque"], correctAnswer: 0 },
+        { question: "Quem foi arrebatado aos céus num carro de fogo?", answers: ["Elias", "Eliseu", "Moisés", "Paulo"], correctAnswer: 0 },
+        { question: "Quem foi a esposa de Adão?", answers: ["Eva", "Sara", "Rebeca", "Maria"], correctAnswer: 0 },
+        { question: "Quem construiu a arca?", answers: ["Noé", "Moisés", "Abraão", "Jacó"], correctAnswer: 0 }
+      ]
+    }
+  ];
 
-  <footer>
-    <p>&copy; 2025 Semente de Fé</p>
-  </footer>
+  let faseAtual = 0;
+  let perguntaAtual = 0;
+  let score = 0;
+  let currentCorrectIndex = null;
 
-  <script>
-    const questions = [
-      {
-        question: "Quem traiu Jesus?",
-        answers: ["Judas", "Pedro", "João", "Tiago"],
-        correctAnswer: 0
-      },
-      {
-        question: "Qual é o primeiro livro da Bíblia?",
-        answers: ["Gênesis", "Êxodo", "Levítico", "Deuteronômio"],
-        correctAnswer: 0
-      },
-      {
-        question: "Quem foi o líder que conduziu os israelitas para fora do Egito?",
-        answers: ["Moisés", "Josué", "Davi", "Abraão"],
-        correctAnswer: 0
-      },
-      {
-        question: "Quem escreveu o livro de Salmos?",
-        answers: ["Davi", "Isaías", "Ezequiel", "Salomão"],
-        correctAnswer: 0
-      },
-      {
-        question: "Quem foi o profeta que desafiou os profetas de Baal no Monte Carmelo?",
-        answers: ["Elias", "Eliseu", "Moisés", "Isaías"],
-        correctAnswer: 0
-      }
-    ];
+  function shuffleAnswers(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
 
-    let currentQuestionIndex = 0;
-    let score = 0;
+  function loadQuestion() {
+    const fase = quizData[faseAtual];
+    const pergunta = fase.perguntas[perguntaAtual];
+    document.getElementById("question").textContent = `${fase.fase} - ${pergunta.question}`;
+    
+    const shuffled = shuffleAnswers([...pergunta.answers]);
+    currentCorrectIndex = shuffled.indexOf(pergunta.answers[pergunta.correctAnswer]);
 
-    function loadQuestion() {
-      const question = questions[currentQuestionIndex];
-      document.getElementById("question").textContent = question.question;
+    const answersDiv = document.getElementById("answers");
+    answersDiv.innerHTML = "";
+    shuffled.forEach((resposta, i) => {
+      const div = document.createElement("div");
+      div.className = "answer";
+      div.textContent = resposta;
+      div.onclick = () => checkAnswer(i);
+      answersDiv.appendChild(div);
+    });
 
-      // Embaralhar as respostas
-      const shuffledAnswers = shuffleAnswers([...question.answers]);
+    document.getElementById("next-btn").style.display = "none";
+  }
 
-      // Achar a posição da resposta correta no array embaralhado
-      const correctAnswerIndex = shuffledAnswers.indexOf(question.answers[question.correctAnswer]);
+  function checkAnswer(selectedIndex) {
+    const respostas = document.querySelectorAll(".answer");
+    respostas.forEach(btn => btn.onclick = null); // desativa clique duplo
 
-      // Atualizar o ID das alternativas com o índice correto
-      const answersDiv = document.getElementById('answers');
-      answersDiv.innerHTML = ''; // Limpar respostas anteriores
-
-      shuffledAnswers.forEach((answer, index) => {
-        const answerDiv = document.createElement('div');
-        answerDiv.classList.add('answer');
-        answerDiv.textContent = answer;
-        answerDiv.onclick = function() {
-          checkAnswer(index, correctAnswerIndex);
-        };
-        answersDiv.appendChild(answerDiv);
-      });
-
-      document.getElementById('next-btn').style.display = 'none';
-      document.getElementById('result').textContent = '';
+    if (selectedIndex === currentCorrectIndex) {
+      respostas[selectedIndex].classList.add("correct");
+      score++;
+    } else {
+      respostas[selectedIndex].classList.add("incorrect");
+      respostas[currentCorrectIndex].classList.add("correct");
     }
 
-    // Função para embaralhar as respostas
-    function shuffleAnswers(answers) {
-      for (let i = answers.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [answers[i], answers[j]] = [answers[j], answers[i]];
-      }
-      return answers;
-    }
+    document.getElementById("score").textContent = `Pontuação: ${score}`;
+    document.getElementById("next-btn").style.display = "block";
+  }
 
-    function checkAnswer(selectedAnswerIndex, correctAnswerIndex) {
-      const answersDiv = document.getElementById('answers');
-      const selectedAnswer = answersDiv.children[selectedAnswerIndex];
+  function nextQuestion() {
+    perguntaAtual++;
+    const fase = quizData[faseAtual];
 
-      // Verifica se a resposta está correta
-      if (selectedAnswerIndex === correctAnswerIndex) {
-        selectedAnswer.classList.add('correct');
-        score++;
-      } else {
-        selectedAnswer.classList.add('incorrect');
-        answersDiv.children[correctAnswerIndex].classList.add('correct');
-      }
+    if (perguntaAtual >= fase.perguntas.length) {
+      faseAtual++;
+      perguntaAtual = 0;
 
-      // Exibir o botão de próxima pergunta
-      document.getElementById('next-btn').style.display = 'block';
-      document.getElementById('score').textContent = `Pontuação: ${score}`;
-    }
-
-    function nextQuestion() {
-      currentQuestionIndex++;
-      if (currentQuestionIndex >= questions.length) {
-        alert('Você terminou o quiz!');
+      if (faseAtual >= quizData.length) {
+        document.getElementById("quiz-container").innerHTML = `<h2>Parabéns! Você finalizou todas as fases.</h2><p>Sua pontuação final: ${score}</p>`;
         return;
+      } else {
+        alert(`Parabéns! Você concluiu a ${fase.fase}. Agora vamos para a ${quizData[faseAtual].fase}!`);
       }
-      loadQuestion();
     }
 
     loadQuestion();
-  </script>
+  }
+
+  loadQuestion();
+</script>
 
 </body>
 </html>
