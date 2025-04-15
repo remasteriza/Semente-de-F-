@@ -122,11 +122,8 @@
     <div id="quiz-container">
       <div id="question-container">
         <div class="question" id="question">Pergunta 1</div>
-        <div class="answers">
-          <div class="answer" onclick="checkAnswer(0)">Alternativa 1</div>
-          <div class="answer" onclick="checkAnswer(1)">Alternativa 2</div>
-          <div class="answer" onclick="checkAnswer(2)">Alternativa 3</div>
-          <div class="answer" onclick="checkAnswer(3)">Alternativa 4</div>
+        <div class="answers" id="answers">
+          <!-- Alternativas serão preenchidas aqui dinamicamente -->
         </div>
       </div>
       <div id="result"></div>
@@ -225,8 +222,8 @@
       // Embaralha as respostas
       const shuffledAnswers = shuffleAnswers([...question.answers]);
 
-      const answersDiv = document.querySelector('.answers');
-      answersDiv.innerHTML = '';
+      const answersDiv = document.getElementById('answers');
+      answersDiv.innerHTML = ''; // Limpar respostas anteriores
       shuffledAnswers.forEach((answer, index) => {
         const answerDiv = document.createElement('div');
         answerDiv.classList.add('answer');
@@ -234,6 +231,18 @@
         answerDiv.setAttribute('onclick', `checkAnswer(${index}, shuffledAnswers)`);
         answersDiv.appendChild(answerDiv);
       });
+
+      // Exibir o botão de próxima pergunta
+      document.getElementById('next-btn').style.display = 'none';
+      document.getElementById('result').textContent = ''; // Limpar resultado
+    }
+
+    // Função para obter as perguntas da fase atual
+    function getPhaseQuestions() {
+      const phaseQuestionsCount = [3, 4, 4, 6]; // Quantidade de perguntas por fase
+      const startIdx = phaseQuestionsCount.slice(0, phase - 1).reduce((a, b) => a + b, 0);
+      const endIdx = startIdx + phaseQuestionsCount[phase - 1];
+      return questions.slice(startIdx, endIdx);
     }
 
     // Função para checar a resposta
@@ -245,4 +254,35 @@
 
       if (index === correctAnswerIndex) {
         selectedAnswer.classList.add('correct');
-        score
+        score++;
+      } else {
+        selectedAnswer.classList.add('incorrect');
+      }
+
+      // Exibir o botão de próxima pergunta
+      document.getElementById('next-btn').style.display = 'block';
+      document.getElementById('score').textContent = `Pontuação: ${score}`;
+    }
+
+    // Função para carregar a próxima pergunta
+    function nextQuestion() {
+      currentQuestionIndex++;
+      if (currentQuestionIndex >= getPhaseQuestions().length) {
+        // Passar para a próxima fase
+        if (phase < 4) {
+          phase++;
+          currentQuestionIndex = 0;
+        } else {
+          alert('Você terminou o quiz!');
+          return;
+        }
+      }
+      loadQuestion();
+    }
+
+    // Iniciar o quiz
+    loadQuestion();
+  </script>
+
+</body>
+</html>
