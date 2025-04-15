@@ -171,62 +171,78 @@
         answers: ["Malaquias", "Zacarias", "Ageu", "Amós"],
         correctAnswer: 0
       },
+      {
+        question: "Quem foi o rei que pediu sabedoria a Deus?",
+        answers: ["Salomão", "Davi", "Saul", "Ezequias"],
+        correctAnswer: 0
+      },
+      {
+        question: "Quem destruiu o muro de Jericó?",
+        answers: ["Josué", "Moisés", "Elias", "Davi"],
+        correctAnswer: 0
+      },
+      {
+        question: "Quem foi o profeta que passou pela boca de um peixe?",
+        answers: ["Jonas", "Daniel", "Elias", "Amós"],
+        correctAnswer: 0
+      },
+      {
+        question: "Quem foi o apóstolo que escreveu o livro de Apocalipse?",
+        answers: ["João", "Pedro", "Paulo", "Mateus"],
+        correctAnswer: 0
+      },
+      {
+        question: "Qual é o nome do monte onde Jesus foi crucificado?",
+        answers: ["Golgotha", "Sinai", "Olivete", "Carmelo"],
+        correctAnswer: 0
+      },
+      {
+        question: "Quem foi o discípulo que negou Jesus três vezes?",
+        answers: ["Pedro", "João", "Tiago", "André"],
+        correctAnswer: 0
+      },
     ];
 
     let currentQuestionIndex = 0;
     let score = 0;
+    let phase = 1;
 
+    // Função para embaralhar as respostas
+    function shuffleAnswers(answers) {
+      for (let i = answers.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [answers[i], answers[j]] = [answers[j], answers[i]];
+      }
+      return answers;
+    }
+
+    // Função para carregar a próxima pergunta
     function loadQuestion() {
-      const question = questions[currentQuestionIndex];
+      const phaseQuestions = getPhaseQuestions();
+      const question = phaseQuestions[currentQuestionIndex];
       document.getElementById("question").textContent = question.question;
+
+      // Embaralha as respostas
+      const shuffledAnswers = shuffleAnswers([...question.answers]);
+
       const answersDiv = document.querySelector('.answers');
       answersDiv.innerHTML = '';
-      question.answers.forEach((answer, index) => {
+      shuffledAnswers.forEach((answer, index) => {
         const answerDiv = document.createElement('div');
         answerDiv.classList.add('answer');
         answerDiv.textContent = answer;
-        answerDiv.setAttribute('onclick', `checkAnswer(${index})`);
+        answerDiv.setAttribute('onclick', `checkAnswer(${index}, shuffledAnswers)`);
         answersDiv.appendChild(answerDiv);
       });
     }
 
-    function checkAnswer(index) {
-      const question = questions[currentQuestionIndex];
+    // Função para checar a resposta
+    function checkAnswer(index, shuffledAnswers) {
+      const phaseQuestions = getPhaseQuestions();
+      const question = phaseQuestions[currentQuestionIndex];
       const selectedAnswer = document.querySelectorAll('.answer')[index];
-      
-      if (index === question.correctAnswer) {
+      const correctAnswerIndex = question.answers.indexOf(shuffledAnswers[0]); // Resposta correta
+
+      if (index === correctAnswerIndex) {
         selectedAnswer.classList.add('correct');
-        score++;
-      } else {
-        selectedAnswer.classList.add('incorrect');
-      }
-
-      // Desabilitar a escolha de respostas após a seleção
-      const answers = document.querySelectorAll('.answer');
-      answers.forEach(answer => {
-        answer.onclick = null;
-      });
-
-      document.getElementById('result').textContent = index === question.correctAnswer ? "Resposta Correta!" : "Resposta Errada!";
-      document.getElementById('score').textContent = `Pontuação: ${score}`;
-      document.getElementById('next-btn').style.display = 'block';
-    }
-
-    function nextQuestion() {
-      if (currentQuestionIndex < questions.length - 1) {
-        currentQuestionIndex++;
-        loadQuestion();
-        document.getElementById('result').textContent = '';
-        document.getElementById('next-btn').style.display = 'none';
-      } else {
-        document.getElementById('result').textContent = `Você terminou o quiz! Pontuação final: ${score}`;
-        document.getElementById('next-btn').style.display = 'none';
-      }
-    }
-
-    // Carregar a primeira pergunta
-    loadQuestion();
-  </script>
-
-</body>
-</html>
+        score
