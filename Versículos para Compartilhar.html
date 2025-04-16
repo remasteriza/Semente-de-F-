@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Versículos para Compartilhar</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f2f5f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #3f72af;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 20px auto;
+      padding: 0 20px;
+    }
+
+    .search-bar {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      width: 80%;
+      max-width: 500px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    .card {
+      background-color: #fff;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .card h3 {
+      margin-bottom: 10px;
+      color: #3f72af;
+    }
+
+    .card p {
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+    }
+
+    .share-btns button {
+      padding: 8px 12px;
+      margin-right: 10px;
+      border: none;
+      border-radius: 6px;
+      background-color: #3f72af;
+      color: white;
+      cursor: pointer;
+    }
+
+    .share-btns button:hover {
+      background-color: #2c5282;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      color: #777;
+      padding-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Versículos para Compartilhar</h1>
+    <p>Escolha um versículo, reflita e compartilhe com alguém!</p>
+  </header>
+
+  <div class="container">
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Pesquise por tema ou palavra-chave..." onkeyup="filtrarVersiculos()"/>
+    </div>
+
+    <div id="versiculosContainer">
+      <!-- Cards gerados por JS -->
+    </div>
+  </div>
+
+  <footer>
+    <p>Semente de Fé © 2025</p>
+  </footer>
+
+  <script>
+    const versiculos = [
+      // FÉ
+      { tema: "Fé", texto: "\"Ora, a fé é a certeza daquilo que esperamos e a prova das coisas que não vemos.\" - Hebreus 11:1" },
+      { tema: "Fé", texto: "\"Porque vivemos por fé, e não pelo que vemos.\" - 2 Coríntios 5:7" },
+      { tema: "Fé", texto: "\"Sem fé é impossível agradar a Deus, pois quem dele se aproxima precisa crer que ele existe.\" - Hebreus 11:6" },
+      { tema: "Fé", texto: "\"Tudo é possível àquele que crê.\" - Marcos 9:23" },
+      { tema: "Fé", texto: "\"Tenham fé em Deus.\" - Marcos 11:22" },
+
+      // ESPERANÇA
+      { tema: "Esperança", texto: "\"Porque sou eu que conheço os planos que tenho para vocês...\" - Jeremias 29:11" },
+      { tema: "Esperança", texto: "\"Alegrem-se na esperança, sejam pacientes na tribulação...\" - Romanos 12:12" },
+      { tema: "Esperança", texto: "\"O Deus da esperança os encha de toda alegria...\" - Romanos 15:13" },
+      { tema: "Esperança", texto: "\"Bendito o homem que confia no Senhor...\" - Jeremias 17:7" },
+      { tema: "Esperança", texto: "\"Mas os que esperam no Senhor renovarão as suas forças...\" - Isaías 40:31" },
+
+      // AMOR
+      { tema: "Amor", texto: "\"Acima de tudo, revistam-se do amor, que é o elo perfeito.\" - Colossenses 3:14" },
+      { tema: "Amor", texto: "\"Amemos uns aos outros, pois o amor procede de Deus.\" - 1 João 4:7" },
+      { tema: "Amor", texto: "\"O amor é paciente, o amor é bondoso...\" - 1 Coríntios 13:4" },
+      { tema: "Amor", texto: "\"Deem e será dado a vocês...\" - Lucas 6:38" },
+      { tema: "Amor", texto: "\"Nós amamos porque ele nos amou primeiro.\" - 1 João 4:19" },
+
+      // GRATIDÃO
+      { tema: "Gratidão", texto: "\"Dêem graças em todas as circunstâncias.\" - 1 Tessalonicenses 5:18" },
+      { tema: "Gratidão", texto: "\"Rendei graças ao Senhor, porque ele é bom.\" - Salmos 107:1" },
+      { tema: "Gratidão", texto: "\"Com ações de graças apresentem seus pedidos a Deus.\" - Filipenses 4:6" },
+      { tema: "Gratidão", texto: "\"Sejam agradecidos.\" - Colossenses 3:15" },
+      { tema: "Gratidão", texto: "\"Entrai por suas portas com ações de graças.\" - Salmos 100:4" },
+
+      // PERSEVERANÇA
+      { tema: "Perseverança", texto: "\"Alegrem-se na esperança, sejam pacientes...\" - Romanos 12:12" },
+      { tema: "Perseverança", texto: "\"Bem-aventurado o homem que persevera na provação.\" - Tiago 1:12" },
+      { tema: "Perseverança", texto: "\"Não nos cansemos de fazer o bem.\" - Gálatas 6:9" },
+      { tema: "Perseverança", texto: "\"Com paciência corremos a carreira que nos está proposta.\" - Hebreus 12:1" },
+      { tema: "Perseverança", texto: "\"Vocês precisam perseverar para receber o que foi prometido.\" - Hebreus 10:36" },
+
+      // PERDÃO
+      { tema: "Perdão", texto: "\"Perdoem como o Senhor lhes perdoou.\" - Colossenses 3:13" },
+      { tema: "Perdão", texto: "\"Se confessarmos os nossos pecados, ele é fiel e justo para perdoar.\" - 1 João 1:9" },
+      { tema: "Perdão", texto: "\"Perdoa-nos assim como perdoamos aos nossos devedores.\" - Mateus 6:12" },
+      { tema: "Perdão", texto: "\"Como um pai tem compaixão dos seus filhos...\" - Salmos 103:13" },
+      { tema: "Perdão", texto: "\"O Senhor é compassivo e misericordioso...\" - Salmos 103:8" }
+    ];
+
+    const container = document.getElementById("versiculosContainer");
+
+    function exibirVersiculos(lista) {
+      container.innerHTML = "";
+      lista.forEach(verso => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <h3>${verso.tema}</h3>
+          <p>${verso.texto}</p>
+          <div class="share-btns">
+            <button onclick="compartilharWhatsApp('${verso.texto}')">WhatsApp</button>
+            <button onclick="copiarTexto('${verso.texto}')">Copiar p/ Story</button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function compartilharWhatsApp(texto) {
+      const link = `https://wa.me/?text=${encodeURIComponent(texto)}`;
+      window.open(link, '_blank');
+    }
+
+    function copiarTexto(texto) {
+      navigator.clipboard.writeText(texto)
+        .then(() => alert("Versículo copiado para compartilhar!"));
+    }
+
+    function filtrarVersiculos() {
+      const busca = document.getElementById("searchInput").value.toLowerCase();
+      const filtrados = versiculos.filter(v =>
+        v.tema.toLowerCase().includes(busca) ||
+        v.texto.toLowerCase().includes(busca)
+      );
+      exibirVersiculos(filtrados);
+    }
+
+    // Exibir todos ao carregar
+    exibirVersiculos(versiculos);
+  </script>
+
+</body>
+</html>
